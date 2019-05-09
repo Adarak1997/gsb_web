@@ -18,15 +18,14 @@ $roles = $query -> fetchAll();
 
     <div id="content">
         <!-- tester si l'utilisateur est connecté -->
-        <a href='compte_visiteur.php?deconnexion=true'><span>Déconnexion</span></a>
+        <a href='../index.php?deconnexion=true'><span>Déconnexion</span></a>
         <?php
-            session_start();
             if(isset($_GET['deconnexion']))
             { 
                 if($_GET['deconnexion']==true)
                 {  
                     session_unset();
-                    header("location:login.php");
+                    header("location:../index.php");
                 }
             }
             else if($_SESSION['pseudo'] !== ""){

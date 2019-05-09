@@ -10,7 +10,7 @@
         $prenom = $_POST['prenom'];
         $date_naissance = $_POST['date_naissance'];
         $email = $_POST['email'];
-        $mdp = password_hash($_POST['mdp'], PASSWORD_DEFAULT);  //hachage du mot de passe
+        $mdp = md5($_POST['mdp']);  //hachage du mot de passe
         $ville = $_POST['ville'];
         $adresse = $_POST['adresse'];
         $code_postal = $_POST['code_postal'];

@@ -9,22 +9,20 @@
             <!-- tester si l'utilisateur est connecté -->
             <a href='compte_visiteur.php?deconnexion=true'><span>Déconnexion</span></a>
             <?php
-                session_start();
-                if(isset($_GET['deconnexion']))
+            session_start();
+               if(isset($_GET['deconnexion']))
                 { 
                    if($_GET['deconnexion']==true)
                    {  
                       session_unset();
-                      header("location:login.php");
+                      header("location:../index.php");
                    }
                 }
                 else if($_SESSION['pseudo'] !== ""){
                     $user = $_SESSION['pseudo'];
                     // afficher un message
-                    echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
+                    echo "Bonjour $user, vous êtes connecté en tant que comptable";
                 }
-                    
-                
             ?>
             
         </div>
