@@ -8,27 +8,35 @@ if(isset($_POST['pseudo']) && isset($_POST['mdp']))
     
     // on applique les deux fonctions mysqli_real_escape_string et htmlspecialchars
     // pour éliminer toute attaque de type injection SQL et XSS
-    $pseudo = mysqli_real_escape_string($db,$_POST['pseudo']); 
-    $mdp1 = mysqli_real_escape_string($db,$_POST['mdp']);
+    $pseudo = $_POST['pseudo']; 
+    $mdp1 = $_POST['mdp'];
     $mdp = md5($mdp1);
    
     if($pseudo !== "" && $mdp !== "")
     {
-            $requete ="SELECT count(*) as compteur FROM utilisateur where 
-              pseudo = '".$pseudo."' and mdp = '".$mdp."' ";
+            $requete =$bdd->prepare("SELECT count(*) as compteur FROM utilisateur where 
+              pseudo = :pseudo and mdp = :mdp") ;
 
-      $exec_requete = mysqli_query($db,$requete);
-        $reponse      = mysqli_fetch_array($exec_requete);
-        $count = $reponse['count(*)'];
+      $requete->bindParam(':pseudo', $pseudo);
+      $requete->bindParam(':mdp', $mdp);
+        
+      $requete->execute();
+        
+      $reponse = $requete->fetch();
         
         if($reponse['compteur'] !=0)
       {
-        $requete2 ="SELECT role_id FROM utilisateur where 
-              pseudo = '".$pseudo."' and mdp = '".$mdp."' ";
-        $exec_requete2 = mysqli_query($db,$requete2);
-        $reponse = mysqli_fetch_array($exec_requete2);
-        $_SESSION['pseudo'] = $pseudo;
-        $_SESSION['mdp'] = $mdp;
+        $requete2 =$bdd->prepare("SELECT role_id FROM utilisateur where 
+              pseudo = :pseudo and mdp = :mdp ");
+        
+        $requete2->bindParam(':pseudo', $pseudo);
+        $requete2->bindParam(':mdp', $mdp);
+        
+        $requete2->execute();
+        
+        $reponse = $requete2->fetch();
+        $_SESSION['pseudo'] = $_POST['pseudo'];
+        $_SESSION['mdp'] = $_POST['mdp'];
 
         if($reponse['role_id'] == 1){
         header('location: compte_visiteur.php');
@@ -62,5 +70,5 @@ else
 {
    header('Location: login.php');
 }
-mysqli_close($db); // fermer la connexion
+mysqli_close($bdd); // fermer la connexion
 ?>

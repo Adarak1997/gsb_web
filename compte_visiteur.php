@@ -19,6 +19,7 @@
           <th>mois</th>
           <th>année</th>
           <th>etat</th>
+          <th>détails</th>
         </tr>
 
             <?php
@@ -41,14 +42,23 @@
 
 
 
-              $requete = 'SELECT utilisateur.id, role.id as role_id, role.libelle as libel FROM `utilisateur` inner join role on utilisateur.role_id = role.id WHERE `pseudo` =\'' . $_SESSION['pseudo'] . '\'';
+              $requete = $bdd->query('SELECT utilisateur.id, role.id as role_id, role.libelle as libel FROM `utilisateur` inner join role on utilisateur.role_id = role.id WHERE `pseudo` =\'' . $_SESSION['pseudo'] . '\'');
 
-             $exec_requete = mysqli_query($db,$requete);
-            $reponse = mysqli_fetch_array($exec_requete);
-      
+             
+      while ($reponse = $requete->fetch()){
       
               $userId = $reponse['id'];
-      
+
+              if($reponse['role_id'] == 1){
+        $reponse['role_id'] = "Visiteur";
+        }
+        if($reponse['role_id'] == 2){
+        $reponse['role_id'] = "Comptable";
+        }
+        if($reponse['role_id'] == 3){
+        $reponse['role_id'] = "Administrateur";
+        }
+      }
                
     ?> 
 
@@ -57,24 +67,49 @@
               
 
 <?php
-              $sql= "SELECT fiche_frais.id, fiche_frais.mois, fiche_frais.annee, fiche_frais.utilisateur_id as utilisateur_id, etat.id as etat_id, etat.libelle as libelle FROM fiche_frais inner join etat on fiche_frais.etat_id = etat.id WHERE utilisateur_id = '".$userId."' ORDER BY annee DESC, mois DESC";
-              $result = $db ->query($sql);
+              $sql= $bdd->query("SELECT fiche_frais.id, fiche_frais.mois, fiche_frais.annee, fiche_frais.utilisateur_id as utilisateur_id, etat.id as etat_id, etat.libelle as libelle FROM fiche_frais inner join etat on fiche_frais.etat_id = etat.id WHERE utilisateur_id = '".$userId."' ORDER BY annee DESC, mois DESC");
+              $reponse = $sql ->fetch();
               
-              if ($result -> num_rows > 0)
+              if ($reponse > 0)
               {
-                while ($row = $result-> fetch_assoc())
-                {
+                
+                
 
-                  echo "<tr><td>". $row["mois"]."</td><td>". $row["annee"]. "</td><td>". $row["libelle"]. "<td></tr>";
-                }
+                  echo "<tr><td>". $reponse["mois"]."</td><td>". $reponse["annee"]. "</td><td>". $reponse["libelle"]. "</td><td>". '<button id="showpopup" value="d">Afficher form</button>'; "<td></tr>";
+
+                
                 echo "</table>";
+
               }
               else {
                 echo "0 result";
               }
-              $db->close();
+              
             ?>
+
          </table>  
         </div>
+
+
+
+        <div style="background: rgba(212,212,212,0.20);box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.15);">
+          <h2>Déclarer un frai forfaitisé</h2>
+          <p>crée une demande de remboursement <br>envoyer au service comptable</p>
+          <form method="post" style="padding: 0px 0 10px 0px;" action="index.php">
+            <SELECT id="liste" style="min-width: 220px;" class="role" name="frais" size="1" onChange="fix()">
+              <option class="rolesub">Liste de frais</option>
+              <OPTION class="rolesub" value="Hotel">Hotel
+              <OPTION class="rolesub" value="Restauration">Restauration
+              <OPTION class="rolesub" value="Transport">Transport
+            </SELECT><br>
+            <div id="petrol" class="novue animated fadeIn">
+            <SELECT class="role" style="min-width: 220px;margin-top: 15px;    padding: 5px 40px;" name="petrol" id="liste2" size="1" onChange="gaz()">
+                <option class="rolesub" selected>Liste des choix
+                <OPTION class="rolesub" value="essence">essence
+                <OPTION class="rolesub" value="diesel">diesel
+              </SELECT><br>
+              
+            </div>
+      </div>
     </body>
 </html>

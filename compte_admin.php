@@ -23,6 +23,8 @@
                     // afficher un message
                     echo "Bonjour $user, vous êtes connecté comme admin";
                 }
+
+                
                     
                 
             ?>
