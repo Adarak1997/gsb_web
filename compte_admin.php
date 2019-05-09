@@ -21,7 +21,7 @@
                 else if($_SESSION['pseudo'] !== ""){
                     $user = $_SESSION['pseudo'];
                     // afficher un message
-                    echo "Bonjour $user, vous êtes connecté comme admin";
+                    echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
                 }
                     
                 
