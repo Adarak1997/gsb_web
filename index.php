@@ -2,20 +2,20 @@
     <head>
        <meta charset="utf-8">
         <!-- importer le fichier de style -->
-        <link rel="stylesheet" href="style.css" media="screen" type="text/css" />
+        <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
     </head>
     <body>
         <div id="container">
             <!-- zone de connexion -->
             
-            <form action="verification.php" method="POST">
+            <form action="fonction/verification.php" method="POST">
                 <h1>Connexion</h1>
                 
                 <label><b>Nom d'utilisateur</b></label>
                 <input type="text" placeholder="Entrer le nom d'utilisateur" name="pseudo" required>
 
                 <label><b>Mot de passe</b></label>
-                <input type="password" placehold er="Entrer le mot de passe" name="mdp" required>
+                <input type="password" placeholder="Entrer le mot de passe" name="mdp" required>
 
                 <input type="submit" id='submit' value='LOGIN' >
                 <?php

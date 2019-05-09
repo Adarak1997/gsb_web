@@ -15,13 +15,13 @@
                    if($_GET['deconnexion']==true)
                    {  
                       session_unset();
-                      header("location:login.php");
+                      header("location:../index.php");
                    }
                 }
                 else if($_SESSION['pseudo'] !== ""){
                     $user = $_SESSION['pseudo'];
                     // afficher un message
-                    echo "Bonjour $user, vous êtes connecté comme comptable";
+                    echo "Bonjour $user, vous êtes connecté en tant que comptable";
                 }
             ?>
             

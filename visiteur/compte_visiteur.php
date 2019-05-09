@@ -29,7 +29,7 @@
                    if($_GET['deconnexion']==true)
                    {  
                       session_unset();
-                      header("location:login.php");
+                      header("location:../index.php");
                    }
                 }
                 else if($_SESSION['pseudo'] !== "" && $_SESSION['mdp'] !== ""){
