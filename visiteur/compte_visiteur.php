@@ -4,7 +4,9 @@
         <meta charset="utf-8">
         <!-- importer le fichier de style -->
         <link rel="stylesheet" href="style.css" media="screen" type="text/css" />
-
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     </head>
     <body style='background:#fff;'>
 
@@ -14,12 +16,13 @@
             <!-- tester si l'utilisateur est connecté -->
 
 
-            <table>
+            <table class="table">
+              <thead class="thead">
         <tr>
-          <th>mois</th>
-          <th>année</th>
-          <th>etat</th>
-          <th>détails</th>
+          <th scope="col">mois</th>
+          <th scope="col">année</th>
+          <th scope="col">etat</th>
+          <th scope="col">détails</th>
         </tr>
 
             <?php
@@ -38,7 +41,7 @@
                    
                 }
 
-              include("bdd.php");
+              include("../bdd.php");
 
 
 
@@ -67,29 +70,56 @@
               
 
 <?php
-              $sql= $bdd->query("SELECT fiche_frais.id, fiche_frais.mois, fiche_frais.annee, fiche_frais.utilisateur_id as utilisateur_id, etat.id as etat_id, etat.libelle as libelle FROM fiche_frais inner join etat on fiche_frais.etat_id = etat.id WHERE utilisateur_id = '".$userId."' ORDER BY annee DESC, mois DESC");
-              $reponse = $sql ->fetch();
+              $reponse= $bdd->query("SELECT fiche_frais.id, fiche_frais.mois, fiche_frais.annee, fiche_frais.utilisateur_id as utilisateur_id, etat.id as etat_id, etat.libelle as libelle FROM fiche_frais inner join etat on fiche_frais.etat_id = etat.id WHERE utilisateur_id = '".$userId."' ORDER BY annee DESC, mois DESC");
               
-              if ($reponse > 0)
-              {
                 
+             
                 
+                while($row = $reponse->fetch()){
 
-                  echo "<tr><td>". $reponse["mois"]."</td><td>". $reponse["annee"]. "</td><td>". $reponse["libelle"]. "</td><td>". '<button id="showpopup" value="d">Afficher form</button>'; "<td></tr>";
+                $id_fiche_frais = $row['id'];
 
-                
+                  echo "<tr><td>". $row["mois"]."</td><td>". $row["annee"]. "</td><td>". $row["libelle"]. "</td><td>". '<a type="button" class="btn btn-primary" data-toggle="modal" href="./details.php?=.$row["id"].">Détails de la fiche</a>'; "<td></tr>";
+
+                }
                 echo "</table>";
 
-              }
-              else {
-                echo "0 result";
-              }
+
+
+
+              
               
             ?>
+           <!--  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div> -->
 
+
+            <thead>
          </table>  
+
         </div>
 
+       
+
+
+<!-- Modal -->
 
 
         <div style="background: rgba(212,212,212,0.20);box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.15);">
@@ -102,14 +132,52 @@
               <OPTION class="rolesub" value="Restauration">Restauration
               <OPTION class="rolesub" value="Transport">Transport
             </SELECT><br>
+
             <div id="petrol" class="novue animated fadeIn">
             <SELECT class="role" style="min-width: 220px;margin-top: 15px;    padding: 5px 40px;" name="petrol" id="liste2" size="1" onChange="gaz()">
                 <option class="rolesub" selected>Liste des choix
                 <OPTION class="rolesub" value="essence">essence
                 <OPTION class="rolesub" value="diesel">diesel
               </SELECT><br>
+             </div>
+
+             <div id="diesel" class="novue">
+              <!-- <input placeholder="Quantité" type="number" class="role" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;">-->
+               <input id="qts3" name="qtsDiesel" placeholder="kilometrage" type="number" min="0" class="role" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;"><br>
+               <center><div class="col-6"><p style="margin:0; margin-top: 20px;text-align: left;">Total remboursé</p></div></center>
+              <center><div class="row col-6" style="margin-top: 0px"><div style="text-align: left;padding: 0px 4px;" min="0" class="col-12"><span id="total3">0</span><span> €</span></p></div></div></center>
               
+              <button name="submitFicheFrais" type="submit" class="btnplus" style="min-width: 220px">Valider la fiche</button>
             </div>
+
+                          <div id="essence" class="novue"><input id="qts4" name="qtsEssence" placeholder="kilomètreage" type="number" class="role" min="0" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;"><br>
+              <center><div class="col-6"><p style="margin:0; margin-top: 20px;text-align: left;">Total remboursé</p></div></center>
+              <center><div class="row col-6" style="margin-top: 0px"><div style="text-align: left;padding: 0px 4px;" class="col-12"><span id="total4" min="0">0</span><span> €</span></p></div><div style="text-align: left;padding: 0px 25px;" class="col-6"></div></div></center>
+              <button name="submitFicheFrais" type="submit" class="btnplus" style="min-width: 220px">Valider la fiche</button>
+              </div>
+
+              <div id="all" class="novue animated fadeIn">
+              <input id="qts" name="qtsHotel" placeholder="Quantité" type="number" min="0" class="role" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;"><br>
+              <center><div class="col-6"><p style="margin:0; margin-top: 20px;text-align: left;">Total remboursé</p></div></center>
+              <center><div class="row col-6" style="margin-top: 0px"><div style="text-align: left;padding: 0px 4px;" class="col-12"><p><span id="total" min="0">0</span><span> €</span></p></div><div style="text-align: left;padding: 0px 15px;" class="col-6"><span> </span></div></div></center>
+              
+              <button name="submitFicheFrais" type="submit" class="btnplus" style="min-width: 220px">Valider la fiche</button>
+            </div>
+
+            <div id="all2" class="novue animated fadeIn">
+              
+              <input id="qts2" name="qtsRestauration" placeholder="Quantité" type="number" min="0" class="role" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;"><br>
+              <center><div class="col-6"><p style="margin:0; margin-top: 20px;text-align: left;">Total remboursé</p></div></center>
+              <center><div class="row col-6" style="margin-top: 0px"><div style="text-align: left;padding: 0px 4px;" min="0" class="col-12">
+              <span id="total2">0</span><span> €</span></p></div></div></center>
+              
+              <button name="submitFicheFrais" type="submit" class="btnplus" style="min-width: 220px">Valider la fiche</button>
+            </div>
+          </form>
       </div>
+
+     
+
+  
     </body>
 </html>

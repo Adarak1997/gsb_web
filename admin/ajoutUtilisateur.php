@@ -40,7 +40,7 @@ $roles = $query -> fetchAll();
 	
 		$reponse = $bdd->query('SELECT role_id, id 
         FROM `utilisateur` 
-        WHERE `id` =\'' . $_SESSION['identifiant'] . '\'');
+        WHERE `id` =\'' . $_SESSION['pseudo'] . '\'');
 		while ($donnees = $reponse->fetch()){
 			
 			

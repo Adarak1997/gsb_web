@@ -39,11 +39,11 @@ if(isset($_POST['pseudo']) && isset($_POST['mdp']))
         $_SESSION['mdp'] = $_POST['mdp'];
 
         if($reponse['role_id'] == 1){
-        header('location: compte_visiteur.php');
+        header('location: ../visiteur/compte_visiteur.php');
         }
         
         if($reponse['role_id'] == 2){
-        header('location: compte_comptable.php');
+        header('location: ../comptable/compte_comptable.php');
         }
         
         if($reponse['role_id'] == 3){
