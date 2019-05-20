@@ -14,6 +14,26 @@ session_start();
 
     <body>
 
+        <div id="content">
+            <!-- tester si l'utilisateur est connecté -->
+            <a href='../index.php?deconnexion=true'><span>Déconnexion</span></a>
+            <?php
+                if(isset($_GET['deconnexion']))
+                { 
+                    if($_GET['deconnexion']==true)
+                    {  
+                        session_unset();
+                        header("location:../index.php");
+                    }
+                }
+                else if($_SESSION['pseudo'] !== ""){
+                $user = $_SESSION['pseudo'];
+                // afficher un message
+                echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
+            }    
+            ?>    
+        </div>
+
         <table class="table">
             <thead class="thead">
                 <tr>
@@ -23,6 +43,7 @@ session_start();
                     <th scope="col">Prénom</th>
                     <th scope="col">Date de naissance</th>
                     <th scope="col">E-mail</th>
+                    <th scope="col">Téléphone</th>
                     <th scope="col">Ville</th>
                     <th scope="col">Adresse</th>
                     <th scope="col">Code Postal</th>
@@ -45,6 +66,7 @@ session_start();
                 "<td>" .$donnees['prenom']. "</td>".
                 "<td>" .$donnees['date_naissance']. "</td>".
                 "<td>" .$donnees['email']. "</td>".
+                "<td>" .$donnees['tel']. "</td>".
                 "<td>" .$donnees['ville']. "</td>".
                 "<td>" .$donnees['adresse']. "</td>".
                 "<td>" .$donnees['code_postal']. "</td>".
@@ -59,6 +81,6 @@ session_start();
     $reponse->closeCursor();
 ?>
         </table>
-        <a class="btn btn-primary" href="ajoutUtilisateur.php" role="button">Retour inscription</a>
+        <a class="btn btn-primary" href="ajoutUtilisateur.php" role="button">Ajouter nouvel utilisateur</a>
     </body>
 </html>

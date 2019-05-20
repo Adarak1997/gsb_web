@@ -16,8 +16,12 @@
             <!-- tester si l'utilisateur est connecté -->
 
 
+
             <table class="table">
               <thead class="thead">
+
+      <table>
+
         <tr>
           <th scope="col">mois</th>
           <th scope="col">année</th>
