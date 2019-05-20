@@ -14,7 +14,7 @@
             <!-- tester si l'utilisateur est connecté -->
 
 
-            <table>
+      <table>
         <tr>
           <th>mois</th>
           <th>année</th>
@@ -38,7 +38,7 @@
                    
                 }
 
-              include("bdd.php");
+              include("../bdd.php");
 
 
 

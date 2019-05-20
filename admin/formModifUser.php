@@ -8,19 +8,39 @@ $roles = $queryRole -> fetchAll();*/
 
 <!DOCTYPE html>
 <html>
-		<head>
-				<meta charset="utf-8" />
-				<title>Modifier utilisateur</title>
-				<link rel="stylesheet" type="text/css" media="screen" href="../css/style.css" />
-				<link href="../css/bootstrap.min.css" rel="stylesheet">
-		</head>
+	<head>
+		<meta charset="utf-8" />
+		<title>Modifier utilisateur</title>
+		<link rel="stylesheet" type="text/css" media="screen" href="../css/style.css" />
+		<link href="../css/bootstrap.min.css" rel="stylesheet">
+	</head>
 	<body>
+
+	<div id="content">
+        <!-- tester si l'utilisateur est connecté -->
+        <a href='../index.php?deconnexion=true'><span>Déconnexion</span></a>
+        <?php
+            if(isset($_GET['deconnexion']))
+            { 
+                if($_GET['deconnexion']==true)
+                {  
+                    session_unset();
+                    header("location:../index.php");
+                }
+            }
+            else if($_SESSION['pseudo'] !== ""){
+            $user = $_SESSION['pseudo'];
+            // afficher un message
+            echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
+        }    
+        ?>    
+    </div>
 
 		<?php
 		//recupération de tous les id des utilisateurs
 		$reponse = $bdd->query('SELECT *
-														FROM `utilisateur` 
-														WHERE `id` =\'' . $_GET['id'] . '\'');	
+								FROM `utilisateur` 
+								WHERE `id` =\'' . $_GET['id'] . '\'');	
 
 		while ($donnees = $reponse->fetch()){
 			

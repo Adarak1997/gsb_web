@@ -2,7 +2,7 @@
     session_start();
     include ('../bdd.php');
     if (isset($_POST['role'])  && isset($_POST['nom'])  && isset($_POST['prenom'])  && isset($_POST['date_naissance']) 
-    && isset($_POST['email'])  && isset($_POST['mdp'])  && isset($_POST['ville'])   && isset($_POST['adresse']) 
+    && isset($_POST['email'])  && isset($_POST['tel'])  && isset($_POST['mdp'])  && isset($_POST['ville'])   && isset($_POST['adresse']) 
     && isset($_POST['code_postal'])  && isset($_POST['pseudo'])  && isset($_POST['date_embauche']) )
     {
         $role = $_POST['role'];
@@ -10,6 +10,7 @@
         $prenom = $_POST['prenom'];
         $date_naissance = $_POST['date_naissance'];
         $email = $_POST['email'];
+        $tel = $_POST['tel'];
         $mdp = md5($_POST['mdp']);  //hachage du mot de passe
         $ville = $_POST['ville'];
         $adresse = $_POST['adresse'];
@@ -29,15 +30,16 @@
         echo "Pseudo: " .$pseudo. "<br><br>";
         echo "Date d'embauche: " .$date_embauche. "<br><br>";*/
 
-        $query = $bdd ->prepare('INSERT INTO `utilisateur` (`id`, `nom`, `prenom`, `email`, `date_naissance`, `adresse`, `ville`,
+        $query = $bdd ->prepare('INSERT INTO `utilisateur` (`id`, `nom`, `prenom`, `email`, `tel`, `date_naissance`, `adresse`, `ville`,
          `code_postal`, `date_embauche`, `pseudo`, `mdp`, `role_id`) 
-        VALUES (id, :nom, :prenom, :email, :date_naissance, :adresse, :ville, :code_postal, :date_embauche,  :pseudo, :mdp,
+        VALUES (id, :nom, :prenom, :email, :tel, :date_naissance, :adresse, :ville, :code_postal, :date_embauche,  :pseudo, :mdp,
                 :role_id)');
         $query ->bindParam(':role_id', $role);
         $query ->bindParam(':nom', $nom);
         $query ->bindParam(':prenom', $prenom);
         $query ->bindParam(':date_naissance', $date_naissance);
         $query ->bindParam(':email', $email);
+        $query ->bindParam(':tel', $tel);
         $query ->bindParam(':mdp', $mdp);
         $query ->bindParam(':ville', $ville);
         $query ->bindParam(':adresse', $adresse);

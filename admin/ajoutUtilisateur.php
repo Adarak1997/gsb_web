@@ -34,7 +34,7 @@ $roles = $query -> fetchAll();
             echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
         }    
         ?>    
-        </div>
+    </div>
 
     <?php 
 	
@@ -87,6 +87,12 @@ $roles = $query -> fetchAll();
                 <div class="form-group">
                     <label for="labelForm">E-mail</label>
                     <input type="text" name="email" class="form-control" placeholder="Entrez votre E-mail..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="labelForm">Téléphone</label>
+                    <input type="text" name="tel" class="form-control" placeholder="Entrez votre numéro de téléphone..." required>
+                </div>      
 
                 <div class="form-group">
                     <label for="labelForm">Mot de passe</label>
