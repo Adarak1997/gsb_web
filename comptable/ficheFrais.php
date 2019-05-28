@@ -36,20 +36,30 @@ session_start();
         </div>
 
         <?php
-            $reponse = $bdd->query('SELECT details_frais_forfait.id,
-                                    details_frais_forfait.quantite as quantite, 
-                                    fiche_frais.id as fiche_id,
-                                    frais_forfait.libelle as libelleFF, 
-                                    frais_forfait.id as frais_forfait_id,
-                                    frais_forfait.montant as montant, 
-                                    FROM fiche_frais 
-                                    inner join frais_forfait on details_frais_forfait.frais_forfait_id = frais_forfait.id   
-                                    WHERE fiche_frais_id =\'' . $_GET['id'] . '\'');
 
-            while($frais = $reponse -> fetch()) {
-                echo $frais['quantite'];
-                echo $frais['libelleFF'];
-                echo $frais['montant'];
+            $sql = $bdd->query("SELECT mois, annee, id FROM fiche_frais");
+            $sql2 = $sql->fetch();
+      
+            $id_fichefrais = $sql2['id'];
+
+           
+            $sql2=$bdd->query("SELECT details_frais_forfait.id, details_frais_forfait.quantite as quantite, 
+                                frais_forfait.id as frais_forfait_id, 
+                                frais_forfait.libelle as libelle, 
+                                frais_forfait.montant as montant, 
+                                details_frais_forfait.fiche_frais_id as fiche_frais_id, 
+                                etat.id as etat_id, 
+                                etat.libelle as libel 
+                                FROM details_frais_forfait inner join frais_forfait 
+                                on details_frais_forfait.frais_forfait_id = frais_forfait.id 
+                                inner join etat on details_frais_forfait.etat_id = etat.id 
+                                WHERE fiche_frais_id = '".$id_fichefrais."'");
+               
+               while($row = $sql2->fetch()){
+
+                echo $row['libelle'],
+                 $row['montant'],
+                 $row['quantite'];
             }
 
 

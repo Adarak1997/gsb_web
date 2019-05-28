@@ -25,12 +25,6 @@
           <th scope="col">Etat</th>
         </tr>
 
-        
-
-
-        
-
-
             <?php
             
 
@@ -53,9 +47,4 @@
 
                 }
                 echo "</table>";
-    ?> 
-
-    
-
-              
-
+    ?>

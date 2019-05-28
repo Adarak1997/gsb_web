@@ -15,7 +15,7 @@ session_start();
     <body style='background:#fff;'>
         <div id="content">
             <!-- tester si l'utilisateur est connecté -->
-            <a href='compte_visiteur.php?deconnexion=true'><span>Déconnexion</span></a>
+            <a href='../index.php?deconnexion=true'><span>Déconnexion</span></a>
             <?php
                if(isset($_GET['deconnexion']))
                 { 
