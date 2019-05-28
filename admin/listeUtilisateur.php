@@ -2,6 +2,7 @@
 session_start();
     //Récupère le fichier bdd
     include ('../bdd.php');
+    
 ?>
 <!DOCTYPE html>
 <html>

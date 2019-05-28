@@ -17,10 +17,10 @@
 
 
 
-            <table class="table">
+            <table class="table" style="width: 30%">
               <thead class="thead">
 
-      <table>
+      
 
         <tr>
           <th scope="col">mois</th>
@@ -81,9 +81,9 @@
                 
                 while($row = $reponse->fetch()){
 
-                $id_fiche_frais = $row['id'];
+                
 
-                  echo "<tr><td>". $row["mois"]."</td><td>". $row["annee"]. "</td><td>". $row["libelle"]. "</td><td>". '<a type="button" class="btn btn-primary" data-toggle="modal" href="./details.php?=.$row["id"].">Détails de la fiche</a>'; "<td></tr>";
+                  echo "<tr><td>". $row["mois"]."</td><td>". $row["annee"]. "</td><td>". $row["libelle"]. "</td><td>". '<a type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" href="./details.php?id='.$row['id'].'">Détails de la fiche</a>'; "<td></tr>";
 
                 }
                 echo "</table>";
@@ -94,11 +94,12 @@
               
               
             ?>
-           <!--  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"></h5>
+        
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -112,7 +113,7 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>
 
 
             <thead>
@@ -126,9 +127,9 @@
 <!-- Modal -->
 
 
-        <div style="background: rgba(212,212,212,0.20);box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.15);">
-          <h2>Déclarer un frai forfaitisé</h2>
-          <p>crée une demande de remboursement <br>envoyer au service comptable</p>
+        <div style="background: rgba(212,212,212,0.20);box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.15); text-align: center;">
+          <h2>Déclarer un frais forfaitisé</h2>
+          
           <form method="post" style="padding: 0px 0 10px 0px;" action="index.php">
             <SELECT id="liste" style="min-width: 220px;" class="role" name="frais" size="1" onChange="fix()">
               <option class="rolesub">Liste de frais</option>
@@ -147,7 +148,7 @@
 
              <div id="diesel" class="novue">
               <!-- <input placeholder="Quantité" type="number" class="role" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;">-->
-               <input id="qts3" name="qtsDiesel" placeholder="kilometrage" type="number" min="0" class="role" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;"><br>
+               <input id="qts3" name="qtsDiesel"  type="number" min="0" class="role" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;"><br>
                <center><div class="col-6"><p style="margin:0; margin-top: 20px;text-align: left;">Total remboursé</p></div></center>
               <center><div class="row col-6" style="margin-top: 0px"><div style="text-align: left;padding: 0px 4px;" min="0" class="col-12"><span id="total3">0</span><span> €</span></p></div></div></center>
               

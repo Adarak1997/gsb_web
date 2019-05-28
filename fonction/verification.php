@@ -43,11 +43,7 @@ if(isset($_POST['pseudo']) && isset($_POST['mdp']))
         }
         
         if($reponse['role_id'] == 2){
-<<<<<<< HEAD
-        header('location: ../comptable/compte_comptable.php');
-=======
         header('location: ../comptable/listeUtilisateur.php');
->>>>>>> af96a28e44b17c9dd008c6fbc631d96a0dad5a3e
         }
         
         if($reponse['role_id'] == 3){
