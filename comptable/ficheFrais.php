@@ -11,32 +11,51 @@ session_start();
         <!-- importer le fichier de style -->
         <link rel="stylesheet" href="style.css" media="screen" type="text/css" />
         <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/navbar.css" rel="stylesheet">
+        <link href="../css/tableau.css" rel="stylesheet">
 
     </head>
     <body style='background:#fff;'>
-    
-        <div id="content">
-                <!-- tester si l'utilisateur est connecté -->
-                <a href='../index.php?deconnexion=true'><span>Déconnexion</span></a>
-                <?php
-                    if(isset($_GET['deconnexion']))
-                        { 
-                        if($_GET['deconnexion']==true)
-                        {  
-                            session_unset();
-                            header("location:../index.php");
-                        }
-                        }
-                        else if($_SESSION['pseudo'] !== ""){
-                        $user = $_SESSION['pseudo'];
-                        // afficher un message
-                        echo "Bonjour $user, vous êtes connecté en tant que comptable";
-                    }
-                ?>
-        </div>
+        <!-- Navbar -->
+        <div class="container-navbar">
+        <ul>
+          <li><img src="../image/logo-gsb.png" style="width:100px; height:auto; margin:5px 50px 5px 5px;"></li>
+          <li><a href="listeUtilisateur.php">Liste des utilisateurs</a></li>
+          <li></li>
+          <li style="float:right"><a href='../index.php?deconnexion=true'><span>Déconnexion</span></a></li>
+        </ul>
+      </div>
+
+      <!--Teste si l'utilisateur est connecté et affiche ses informations -->
+      <div style="background-color:#66A3D3; font-size: 1.1em; margin-bottom:20px;">
+        <?php
+          if(isset($_GET['deconnexion'])) { 
+            if($_GET['deconnexion']==true) {  
+              session_unset();
+              header("location:../index.php");
+            }
+          }
+          else if($_SESSION['pseudo'] !== ""){
+            $user = $_SESSION['pseudo'];
+            // afficher un message
+            echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
+          }    
+        ?>    
+      </div>
+          <!--
+            $query=$bdd->query('SELECT fiche_frais.id as fiche_frais_id,
+                                       fiche_frais.utilisateur_id as utilisateur_id
+                                       utilisateur.id as utilisateur_id,
+                                       utilisateur.tel as tel,
+                                       utilisateur.pseudo as pseudo
+                                       FROM utilisateur inner join fiche_frais on fiche_frais.utilisateur_id = utilisateur_id
+                                       WHERE `fiche_frais_id` =\'' . $_GET['id'] . '\'');
+            $user=$query->fetch();-->
+          
 
         <br><br>
-        <h2>Frais frofaitisés</h2>
+        <center><h2>Frais frofaitisés</h2></center>
+        <div class="tableau">
         <table class="table">
             <thead class="thead">
                 <tr>
@@ -69,9 +88,11 @@ session_start();
                 }
                 echo "</table>";
         ?>
+        </div>
 
         <br><br>
-        <h2>Frais non-frofaitisés</h2>
+        <center><h2>Frais non-frofaitisés</h2></center>
+            <div class="tableau">
                 <table class="table">
                     <thead class="thead">
                         <tr>
@@ -102,6 +123,8 @@ session_start();
                         }
                         echo "</table>";
                 ?>
+            </div>
+            <input class="btn btn-primary" type="button" value="Retour" style="margin-left:50px;" onclick="history.go(-1)">
 
     </body>
 </html>
