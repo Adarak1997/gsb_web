@@ -2,6 +2,7 @@
 session_start();
     //Récupère le fichier bdd
     include ('../bdd.php');
+    
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,9 +11,32 @@ session_start();
     <title>Liste des utilisateurs</title>
     <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css" />
     <link href="../css/bootstrap.min.css" rel="stylesheet">
+    
 </head>
-
     <body>
+
+<!-- Image and text -->
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">
+    <img src="../gsb_web.png" width="30" height="30" class="d-inline-block align-top" alt="">
+  </a>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Pricing</a>
+      </li>
+    </ul>
+    <span class="navbar-text">
+      Navbar text with an inline element
+    </span>
+  </div>
+</nav>
 
         <div id="content">
             <!-- tester si l'utilisateur est connecté -->
@@ -82,5 +106,6 @@ session_start();
 ?>
         </table>
         <a class="btn btn-primary" href="ajoutUtilisateur.php" role="button">Ajouter nouvel utilisateur</a>
+        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>

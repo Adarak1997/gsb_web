@@ -41,24 +41,11 @@ $roles = $queryRole -> fetchAll();*/
 		$reponse = $bdd->query('SELECT *
 								FROM `utilisateur` 
 								WHERE `id` =\'' . $_GET['id'] . '\'');	
-
 		while ($donnees = $reponse->fetch()){
 			
-			/*if ($donnees['role_id'] == 1) {
-				$donnees['role_id'] = "Visiteur";
-			}
-			elseif($donnees['role_id'] == 2){
-				$donnees['role_id'] = "Comptable";
-			}else{
-				$donnees['role_id'] = "Administrateur";
-			}*/
 			?>
 				<div class="formulaire">
-					<form action="../fonction/modifUser.php" method="POST">
-						<!--<label>Rôle</label>
-						<select name="role" class="form-control">
-							<option value="<?php echo $roles['role_id']; ?>"><?php echo $roles['libelle']; ?></option>
-						</select>-->
+					<form method="POST">
 						<div class="form-group">
 							<label>Nom</label>
 							<input type="text" class="form-control" name="nom" value="<?php echo $donnees["nom"]?>">
@@ -73,7 +60,7 @@ $roles = $queryRole -> fetchAll();*/
 						</div>
 						<div class="form-group">
 							<label>Téléphone</label>
-							<input type="text" class="form-control" name="tel" value="<?php echo $donnees["email"]?>">
+							<input type="text" class="form-control" name="tel" value="<?php echo $donnees["tel"]?>">
 						</div>
 						<div class="form-group">
 							<label>Date de naissance</label>

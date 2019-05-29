@@ -1,11 +1,27 @@
 body{
-    background: #67BE4B;
+    background: #4bb0be;
 }
 #container{
     width:400px;
     margin:0 auto;
     margin-top:10%;
+
 }
+
+#entete {
+    color: white;
+    border-collapse: separate;
+}
+
+#entete #logoGSB {
+    float: left;
+}
+
+#entete h1 {
+    float: right;
+    padding-left: 50px;
+}
+
 /* Bordered form */
 form {
     width:100%;
@@ -62,3 +78,4 @@ input[type=submit]:hover {
     color: white;
     float: right
 }
+

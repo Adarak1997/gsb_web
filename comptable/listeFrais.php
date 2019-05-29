@@ -35,6 +35,13 @@ session_start();
             }
             ?>
     </div>
+    <?php
+    //recupération de tous les id des utilisateurs
+		$reponse = $bdd->query('SELECT fiche_frais.id as fiche_id, fiche_frais.mois, fiche_frais.annee, fiche_frais.utilisateur_id 
+                                as utilisateur_id, etat.id as etat_id, etat.libelle as libelle
+								FROM `fiche_frais` inner join etat on fiche_frais.etat_id = etat.id
+                                WHERE `utilisateur_id` =\'' . $_GET['id'] . '\'');
+    ?>	
     <div>
         <table class="table">
             <tr class="thead">
@@ -42,13 +49,8 @@ session_start();
                 <th scope="col">Année</th>
                 <th scope="col">État</th>
             </tr>
-    <?php
-    //recupération de tous les id des utilisateurs
-		$reponse = $bdd->query('SELECT fiche_frais.id as fiche_id, fiche_frais.mois, fiche_frais.annee, fiche_frais.utilisateur_id 
-                                as utilisateur_id, etat.id as etat_id, etat.libelle as libelle
-								FROM `fiche_frais` inner join etat on fiche_frais.etat_id = etat.id
-								WHERE `utilisateur_id` =\'' . $_GET['id'] . '\'');	
-
+    
+<?php
 while($donnees = $reponse -> fetch())   
 {
     echo "<tr>".

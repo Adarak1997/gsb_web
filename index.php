@@ -4,13 +4,14 @@
         <!-- importer le fichier de style -->
         <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
     </head>
-    <body>
+    <body style="background-color: #4bb0be">
         <div id="container">
             <!-- zone de connexion -->
             
             <form action="fonction/verification.php" method="POST">
                 <h1>Connexion</h1>
-                
+                <img src="gsb_web.png" style="width: 50%;margin-left: 75px">
+                <br>
                 <label><b>Nom d'utilisateur</b></label>
                 <input type="text" placeholder="Entrer le nom d'utilisateur" name="pseudo" required>
 
