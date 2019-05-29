@@ -9,55 +9,42 @@ session_start();
 <head>
     <meta charset="utf-8" />
     <title>Liste des utilisateurs</title>
-    <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css" />
     <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/navbar.css" rel="stylesheet">
+    <link href="../css/tableau.css" rel="stylesheet">
     
 </head>
     <body>
+        <!-- Navbar -->
+      <div class="container-navbar">
+        <ul>
+          <li><img src="../image/logo-gsb.png" style="width:100px; height:auto; margin:5px 50px 5px 5px;"></li>
+          <li><a href="listeUtilisateur.php">Liste des utilisateurs</a></li>
+          <li><a href="ajoutUtilisateur.php" role="button">Ajouter nouvel utilisateur</a></li>
+          <li></li>
+          <li style="float:right"><a href='../index.php?deconnexion=true'><span>Déconnexion</span></a></li>
+        </ul>
+      </div>
 
-<!-- Image and text -->
-<nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand" href="#">
-    <img src="../gsb_web.png" width="30" height="30" class="d-inline-block align-top" alt="">
-  </a>
-  <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Features</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
-      </li>
-    </ul>
-    <span class="navbar-text">
-      Navbar text with an inline element
-    </span>
-  </div>
-</nav>
+      <!--Teste si l'utilisateur est connecté et affiche ses informations -->
+      <div style="background-color:#66A3D3; font-size: 1.1em; margin-bottom:20px;">
+        <?php
+          if(isset($_GET['deconnexion'])) { 
+            if($_GET['deconnexion']==true) {  
+              session_unset();
+              header("location:../index.php");
+            }
+          }
+          else if($_SESSION['pseudo'] !== ""){
+            $user = $_SESSION['pseudo'];
+            // afficher un message
+            echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
+          }    
+        ?>    
+      </div>
 
-        <div id="content">
-            <!-- tester si l'utilisateur est connecté -->
-            <a href='../index.php?deconnexion=true'><span>Déconnexion</span></a>
-            <?php
-                if(isset($_GET['deconnexion']))
-                { 
-                    if($_GET['deconnexion']==true)
-                    {  
-                        session_unset();
-                        header("location:../index.php");
-                    }
-                }
-                else if($_SESSION['pseudo'] !== ""){
-                $user = $_SESSION['pseudo'];
-                // afficher un message
-                echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
-            }    
-            ?>    
-        </div>
-
+      <div class="tableau">
+        <center><h1>Liste des utilisateurs</h1></center>       
         <table class="table">
             <thead class="thead">
                 <tr>
@@ -105,7 +92,8 @@ session_start();
     $reponse->closeCursor();
 ?>
         </table>
-        <a class="btn btn-primary" href="ajoutUtilisateur.php" role="button">Ajouter nouvel utilisateur</a>
+      </div>
+
         <script src="js/bootstrap.min.js"></script>
     </body>
 </html>

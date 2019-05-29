@@ -13,64 +13,36 @@ $roles = $query -> fetchAll();
             <title>Ajout d'utilisateur</title>
             <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css" />
             <link href="../css/bootstrap.min.css" rel="stylesheet">
+            <link href="../css/navbar.css" rel="stylesheet">
         </head>
     <body>
+        <!-- Navbar -->
+        <div class="container-navbar">
+        <ul>
+          <li><img src="../image/logo-gsb.png" style="width:100px; height:auto; margin:5px 50px 5px 5px;"></li>
+          <li><a href="listeUtilisateur.php">Liste des utilisateurs</a></li>
+          <li><a href="ajoutUtilisateur.php" role="button">Ajouter nouvel utilisateur</a></li>
+          <li></li>
+          <li style="float:right"><a href='../index.php?deconnexion=true'><span>Déconnexion</span></a></li>
+        </ul>
+      </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
-
-    <div id="content">
-        <!-- tester si l'utilisateur est connecté -->
-        <a href='../index.php?deconnexion=true'><span>Déconnexion</span></a>
+      <!--Teste si l'utilisateur est connecté et affiche ses informations -->
+      <div style="background-color:#66A3D3; font-size: 1.1em; margin-bottom:20px;">
         <?php
-            if(isset($_GET['deconnexion']))
-            { 
-                if($_GET['deconnexion']==true)
-                {  
-                    session_unset();
-                    header("location:../index.php");
-                }
+          if(isset($_GET['deconnexion'])) { 
+            if($_GET['deconnexion']==true) {  
+              session_unset();
+              header("location:../index.php");
             }
-            else if($_SESSION['pseudo'] !== ""){
+          }
+          else if($_SESSION['pseudo'] !== ""){
             $user = $_SESSION['pseudo'];
             // afficher un message
             echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
-        }    
+          }    
         ?>    
-    </div>
+      </div>
 
     <?php 
 	
@@ -93,7 +65,7 @@ $roles = $query -> fetchAll();
         }
 	  ?>
         <section class="container formulaire">
-            <h1>Inscription utilisateur</h1>
+            <center><h1 style="margin-bottom: 20px;">Inscription utilisateur</h1></center>
             <form action="../fonction/newUser.php" method="POST">
                 <div class="form-group">
                     <label>Rôle</label>
@@ -130,38 +102,40 @@ $roles = $query -> fetchAll();
                     <input type="text" name="tel" class="form-control" placeholder="Entrez votre numéro de téléphone..." required>
                 </div>      
 
-                <div class="form-group">
-                    <label for="labelForm">Mot de passe</label>
-                    <input type="password" name="mdp" class="form-control" placeholder="Entrez votre mot de passe..." required>
-                </div>
-
+                
                 <div class="form-group">
                     <label for="labelForm">Ville</label>
                     <input type="text" name="ville" class="form-control" placeholder="Entrez ville..." required>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="labelForm">Adresse</label>
                     <input type="text" name="adresse" class="form-control" placeholder="Entrez adresse..." required>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="labelForm">Code postal</label>
                     <input type="text" name="code_postal" class="form-control" placeholder="Entrez code postal..." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="labelForm">Date d'embauche</label>
+                    <input type="date" name="date_embauche" class="form-control" placeholder="jj/mm/aaaa" required>
                 </div>
 
                 <div class="form-group">
                     <label for="labelForm">Pseudo</label>
                     <input type="text" name="pseudo" class="form-control" placeholder="Entrez pseudo..." required>
                 </div>
+                
 
                 <div class="form-group">
-                    <label for="labelForm">Date d'embauche</label>
-                    <input type="date" name="date_embauche" class="form-control" placeholder="jj/mm/aaaa" required>
+                    <label for="labelForm">Mot de passe</label>
+                    <input type="password" name="mdp" class="form-control" placeholder="Entrez votre mot de passe..." required>
                 </div>
+                
                 <input class="btn btn-primary btnAjout" type="submit" value="Valider"/><br>
             </form>
-                <a href="listeUtilisateur.php">Accéder à la liste des utilisateurs</a>
         </section>
     </body>
 </html> 

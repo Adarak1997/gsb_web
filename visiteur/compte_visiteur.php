@@ -5,6 +5,7 @@
         <!-- importer le fichier de style -->
         <link rel="stylesheet" href="style.css" media="screen" type="text/css" />
         <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     </head>
@@ -17,7 +18,7 @@
 
 
 
-            <table class="table" style="width: 30%">
+            <table class="table">
               <thead class="thead">
 
       
@@ -115,74 +116,114 @@
   </div>
 </div>
 
+<br><br>
 
-            <thead>
-         </table>  
+ <?php
 
-        </div>
-
-       
-
-
-<!-- Modal -->
+$mois = date("m");
+$annee = date("Y");
+$lemois =['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
 
-        <div style="background: rgba(212,212,212,0.20);box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.15); text-align: center;">
-          <h2>Déclarer un frais forfaitisé</h2>
-          
-          <form method="post" style="padding: 0px 0 10px 0px;" action="index.php">
-            <SELECT id="liste" style="min-width: 220px;" class="role" name="frais" size="1" onChange="fix()">
-              <option class="rolesub">Liste de frais</option>
-              <OPTION class="rolesub" value="Hotel">Hotel
-              <OPTION class="rolesub" value="Restauration">Restauration
-              <OPTION class="rolesub" value="Transport">Transport
-            </SELECT><br>
+$reponse=$bdd->query("SELECT details_frais_forfait.id, details_frais_forfait.quantite as quantite,
+             frais_forfait.id as frais_forfait_id, 
+             frais_forfait.libelle as libelle, 
+             frais_forfait.montant as montant, 
+             fiche_frais.id as fiche_frais_id,
+             fiche_frais.mois, fiche_frais.annee, fiche_frais.utilisateur_id as utilisateur_id,
+              etat.id as etat_id, etat.libelle as libel 
+              FROM details_frais_forfait 
+              inner join frais_forfait 
+              on details_frais_forfait.frais_forfait_id = frais_forfait.id 
+              inner join etat on details_frais_forfait.etat_id = etat.id 
+              inner join fiche_frais on details_frais_forfait.fiche_frais_id = fiche_frais.id
+ WHERE fiche_frais.mois = '".$mois."'
+ AND fiche_frais.annee = '".$annee."'
+ AND utilisateur_id = '".$userId."'");
 
-            <div id="petrol" class="novue animated fadeIn">
-            <SELECT class="role" style="min-width: 220px;margin-top: 15px;    padding: 5px 40px;" name="petrol" id="liste2" size="1" onChange="gaz()">
-                <option class="rolesub" selected>Liste des choix
-                <OPTION class="rolesub" value="essence">essence
-                <OPTION class="rolesub" value="diesel">diesel
-              </SELECT><br>
-             </div>
 
-             <div id="diesel" class="novue">
-              <!-- <input placeholder="Quantité" type="number" class="role" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;">-->
-               <input id="qts3" name="qtsDiesel"  type="number" min="0" class="role" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;"><br>
-               <center><div class="col-6"><p style="margin:0; margin-top: 20px;text-align: left;">Total remboursé</p></div></center>
-              <center><div class="row col-6" style="margin-top: 0px"><div style="text-align: left;padding: 0px 4px;" min="0" class="col-12"><span id="total3">0</span><span> €</span></p></div></div></center>
-              
-              <button name="submitFicheFrais" type="submit" class="btnplus" style="min-width: 220px">Valider la fiche</button>
-            </div>
 
-                          <div id="essence" class="novue"><input id="qts4" name="qtsEssence" placeholder="kilomètreage" type="number" class="role" min="0" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;"><br>
-              <center><div class="col-6"><p style="margin:0; margin-top: 20px;text-align: left;">Total remboursé</p></div></center>
-              <center><div class="row col-6" style="margin-top: 0px"><div style="text-align: left;padding: 0px 4px;" class="col-12"><span id="total4" min="0">0</span><span> €</span></p></div><div style="text-align: left;padding: 0px 25px;" class="col-6"></div></div></center>
-              <button name="submitFicheFrais" type="submit" class="btnplus" style="min-width: 220px">Valider la fiche</button>
-              </div>
 
-              <div id="all" class="novue animated fadeIn">
-              <input id="qts" name="qtsHotel" placeholder="Quantité" type="number" min="0" class="role" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;"><br>
-              <center><div class="col-6"><p style="margin:0; margin-top: 20px;text-align: left;">Total remboursé</p></div></center>
-              <center><div class="row col-6" style="margin-top: 0px"><div style="text-align: left;padding: 0px 4px;" class="col-12"><p><span id="total" min="0">0</span><span> €</span></p></div><div style="text-align: left;padding: 0px 15px;" class="col-6"><span> </span></div></div></center>
-              
-              <button name="submitFicheFrais" type="submit" class="btnplus" style="min-width: 220px">Valider la fiche</button>
-            </div>
 
-            <div id="all2" class="novue animated fadeIn">
-              
-              <input id="qts2" name="qtsRestauration" placeholder="Quantité" type="number" min="0" class="role" style="min-width: 220px;margin-top: 15px;padding: 5px 10px;"><br>
-              <center><div class="col-6"><p style="margin:0; margin-top: 20px;text-align: left;">Total remboursé</p></div></center>
-              <center><div class="row col-6" style="margin-top: 0px"><div style="text-align: left;padding: 0px 4px;" min="0" class="col-12">
-              <span id="total2">0</span><span> €</span></p></div></div></center>
-              
-              <button name="submitFicheFrais" type="submit" class="btnplus" style="min-width: 220px">Valider la fiche</button>
-            </div>
-          </form>
+?> 
+
+<div class="w3-card-4" style="width:50%;">
+    <header class="w3-container w3-blue">
+      <h1>Fiche Frais du mois en cours : <?php echo $lemois[$mois-1]  ?> <?php echo $annee ?>  </h1>
+    </header>
+
+    <div class="w3-container">
+      <p> <h1><u>Frais Forfaitisés</u> </h1>
+            <table class="table">
+              <thead class="thead">
+        <tr>
+          <th scope="col">Libelle</th>
+          <th scope="col">Quantité</th>
+          <th scope="col">Montant</th>
+          <th scope="col">Etat</th>
+        </tr>
+        <?php  while($row = $reponse->fetch()){
+         echo "<tr><td>". $row["libelle"]."</td><td>". $row["quantite"]. "</td><td>". $row["montant"]*$row["quantite"]. "</td><td>".  $row["libel"].  "<td></tr>";
+
+        }
+        echo "</table>";
+       ?>
+       </p>
       </div>
+       <br><br>
+       <?php 
+      $reponse=$bdd->query("SELECT details_frais_non_forfait.id,
+      details_frais_non_forfait.libelle as libelle,
+      details_frais_non_forfait.montant as montant,
+      fiche_frais.id as fiche_frais_id,
+      fiche_frais.mois, fiche_frais.annee, fiche_frais.utilisateur_id as utilisateur_id,
+      etat.id as etat_id, 
+      etat.libelle as libelle_etat
+      FROM details_frais_non_forfait 
+      inner join etat on details_frais_non_forfait.etat_id = etat.id
+      inner join fiche_frais on details_frais_non_forfait.fiche_frais_id = fiche_frais.id
+      WHERE fiche_frais.mois = '".$mois."'
+ AND fiche_frais.annee = '".$annee."'
+ AND utilisateur_id = '".$userId."'");
+
+
+      ?>
+       <div class="w3-container">
+       <p><h1><u>Frais non forfaitisés</u></h1>
+
+<table class="table">
+              <thead class="thead">
+        <tr>
+          <th scope="col">Libelle</th>
+          <th scope="col">Montant</th>
+          <th scope="col">Etat</th>
+        </tr>
+      
+      <?php
+
+while($row = $reponse->fetch()){
+
+   
+
+  echo "<tr><td>". $row["libelle"]."</td><td>". $row["montant"]. "</td><td>".  $row["libelle_etat"].  "<td></tr>";
+
+}
+echo "</table>";
+?>
+
+
+       </p>
+    </div>
+
+    
+  </div>
+              
+ 
+
+
+
 
      
-
   
     </body>
 </html>

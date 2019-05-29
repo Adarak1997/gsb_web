@@ -13,28 +13,37 @@ $roles = $queryRole -> fetchAll();*/
 		<title>Modifier utilisateur</title>
 		<link rel="stylesheet" type="text/css" media="screen" href="../css/style.css" />
 		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/navbar.css" rel="stylesheet">
 	</head>
 	<body>
 
-	<div id="content">
-        <!-- tester si l'utilisateur est connecté -->
-        <a href='../index.php?deconnexion=true'><span>Déconnexion</span></a>
+ <!-- Navbar -->
+ <div class="container-navbar">
+        <ul>
+          <li><img src="../image/logo-gsb.png" style="width:100px; height:auto; margin:5px 50px 5px 5px;"></li>
+          <li><a href="listeUtilisateur.php">Liste des utilisateurs</a></li>
+          <li><a href="ajoutUtilisateur.php" role="button">Ajouter nouvel utilisateur</a></li>
+          <li></li>
+          <li style="float:right"><a href='../index.php?deconnexion=true'><span>Déconnexion</span></a></li>
+        </ul>
+      </div>
+
+      <!--Teste si l'utilisateur est connecté et affiche ses informations -->
+      <div style="background-color:#66A3D3; font-size: 1.1em; margin-bottom:20px;">
         <?php
-            if(isset($_GET['deconnexion']))
-            { 
-                if($_GET['deconnexion']==true)
-                {  
-                    session_unset();
-                    header("location:../index.php");
-                }
+          if(isset($_GET['deconnexion'])) { 
+            if($_GET['deconnexion']==true) {  
+              session_unset();
+              header("location:../index.php");
             }
-            else if($_SESSION['pseudo'] !== ""){
+          }
+          else if($_SESSION['pseudo'] !== ""){
             $user = $_SESSION['pseudo'];
             // afficher un message
             echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
-        }    
+          }    
         ?>    
-    </div>
+      </div>
 
 		<?php
 		//recupération de tous les id des utilisateurs
@@ -44,8 +53,9 @@ $roles = $queryRole -> fetchAll();*/
 		while ($donnees = $reponse->fetch()){
 			
 			?>
-				<div class="formulaire">
-					<form method="POST">
+				<section  class="container formulaire">
+					<center><h1 style="margin-bottom:20px;">Modifier l'utilisateur <?php echo $donnees["pseudo"] ?></h1></center>
+					<form action="../fonction/modifUser.php" method="POST">
 						<div class="form-group">
 							<label>Nom</label>
 							<input type="text" class="form-control" name="nom" value="<?php echo $donnees["nom"]?>">
