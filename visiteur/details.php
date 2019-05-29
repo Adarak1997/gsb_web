@@ -10,12 +10,14 @@
     </head>
     <body style='background:#fff;'>
 
+
+
         <div id="content">
 
              
             <!-- tester si l'utilisateur est connecté -->
 
-
+<h1><u>Frais Forfaitisés</u> </h1>
             <table class="table">
               <thead class="thead">
         <tr>
@@ -24,9 +26,6 @@
           <th scope="col">Montant</th>
           <th scope="col">Etat</th>
         </tr>
-
-        
-
 
         
 
@@ -60,8 +59,40 @@
                 }
                 echo "</table>";
     ?> 
+<br><br>
+
+<h1><u>Frais non forfaitisés</u></h1>
+
+<table class="table">
+              <thead class="thead">
+        <tr>
+          <th scope="col">Libelle</th>
+          <th scope="col">Montant</th>
+          <th scope="col">Etat</th>
+        </tr>
+
+<?php
 
 
 
+$reponse=$bdd->query('SELECT details_frais_non_forfait.id,
+details_frais_non_forfait.fiche_frais_id as fiche_frais_id,
+details_frais_non_forfait.libelle as libelle,
+details_frais_non_forfait.montant as montant,
+etat.id as etat_id, 
+etat.libelle as libelle_etat
+FROM details_frais_non_forfait 
+inner join etat on details_frais_non_forfait.etat_id = etat.id 
+WHERE fiche_frais_id = \'' . $_GET['id'] . '\'');
+  
+  while($row = $reponse->fetch()){
+
+   
+
+     echo "<tr><td>". $row["libelle"]."</td><td>". $row["montant"]. "</td><td>".  $row["libelle_etat"].  "<td></tr>";
+
+   }
+   echo "</table>";
+?> 
               
 
