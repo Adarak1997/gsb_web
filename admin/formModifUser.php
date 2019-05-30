@@ -46,16 +46,16 @@ $roles = $queryRole -> fetchAll();*/
       </div>
 
 		<?php
-		//recupération de tous les id des utilisateurs
+		//recupération des informations selon l'id de l'utilisateur se trouvant dans l'url
 		$reponse = $bdd->query('SELECT *
 								FROM `utilisateur` 
 								WHERE `id` =\'' . $_GET['id'] . '\'');	
-		while ($donnees = $reponse->fetch()){
+		$donnees = $reponse->fetch()
 			
 			?>
 				<section  class="container formulaire">
 					<center><h1 style="margin-bottom:20px;">Modifier l'utilisateur <?php echo $donnees["pseudo"] ?></h1></center>
-					<form action="../fonction/modifUser.php" method="POST">
+					<form method="POST">
 						<div class="form-group">
 							<label>Nom</label>
 							<input type="text" class="form-control" name="nom" value="<?php echo $donnees["nom"]?>">
@@ -100,7 +100,48 @@ $roles = $queryRole -> fetchAll();*/
 					</form>
 				</div>
 		<?php
-		//fermeture du while
+			if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['tel'])
+					&& isset($_POST['date_naissance']) && isset($_POST['adresse']) && isset($_POST['ville']) 
+					&& isset($_POST['code_postal']) && isset($_POST['date_embauche']) && isset($_POST['pseudo'])){
+
+					$nom = $_POST['nom'];
+					$prenom = $_POST['prenom'];
+					$email = $_POST['email'];
+					$tel = $_POST['tel'];
+					$date_naissance = $_POST['date_naissance'];
+					$adresse = $_POST['adresse'];
+					$ville = $_POST['ville'];
+					$code_postal = $_POST['code_postal'];
+					$date_embauche = $_POST['date_embauche'];
+					$pseudo = $_POST['pseudo'];
+
+
+					$requete = $bdd->prepare("UPDATE utilisateur
+						  SET nom = :nom,
+							  prenom = :prenom,
+							  email = :email,
+							  date_naissance = :date_naissance,
+							  adresse = :adresse,
+							  ville = :ville,
+							  code_postal = :code_postal,
+							  date_embauche = :date_embauche,
+							  pseudo = :pseudo
+						  WHERE id = :id ");
+
+					$requete->bindparam(':nom',$nom);
+					$requete->bindparam(':prenom',$prenom);
+					$requete->bindparam(':email',$email);
+					$requete->bindparam(':date_naissance',$date_naissance);
+					$requete->bindparam(':adresse',$adresse);
+					$requete->bindparam(':ville',$ville);
+					$requete->bindparam(':code_postal',$code_postal);
+					$requete->bindparam(':date_embauche',$date_embauche);
+					$requete->bindparam(':pseudo',$pseudo);
+					$requete->bindparam(':id',$_GET['id']);
+
+					$requete->execute();
+
+					header('Location: listeUtilisateur.php');
 			}
 		?>
 	</body>
