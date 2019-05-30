@@ -48,6 +48,9 @@
 
               include("../bdd.php");
 
+              $query = $bdd ->query('select * from frais_forfait');
+              $fraiss = $query -> fetchAll();
+
 
 
               $requete = $bdd->query('SELECT utilisateur.id, role.id as role_id, role.libelle as libel FROM `utilisateur` inner join role on utilisateur.role_id = role.id WHERE `pseudo` =\'' . $_SESSION['pseudo'] . '\'');
@@ -75,7 +78,17 @@
               
 
 <?php
-              $reponse= $bdd->query("SELECT fiche_frais.id, fiche_frais.mois, fiche_frais.annee, fiche_frais.utilisateur_id as utilisateur_id, etat.id as etat_id, etat.libelle as libelle FROM fiche_frais inner join etat on fiche_frais.etat_id = etat.id WHERE utilisateur_id = '".$userId."' ORDER BY annee DESC, mois DESC");
+$mois = date("m");
+$annee = date("Y");
+$lemois =['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+              $reponse= $bdd->query("SELECT fiche_frais.id, fiche_frais.mois, fiche_frais.annee, 
+              fiche_frais.utilisateur_id as utilisateur_id, 
+              etat.id as etat_id, etat.libelle as libelle 
+              FROM fiche_frais 
+              inner join etat on fiche_frais.etat_id = etat.id 
+              WHERE (fiche_frais.mois != '".$mois."' OR fiche_frais.annee != '".$annee."') 
+              AND utilisateur_id = '".$userId."' ORDER BY annee DESC, mois DESC");
               
                 
              
@@ -120,9 +133,7 @@
 
  <?php
 
-$mois = date("m");
-$annee = date("Y");
-$lemois =['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
 
 
 $reponse=$bdd->query("SELECT details_frais_forfait.id, details_frais_forfait.quantite as quantite,
@@ -211,14 +222,33 @@ while($row = $reponse->fetch()){
 echo "</table>";
 ?>
 
-
        </p>
     </div>
+<br><br>
+
 
     
   </div>
-              
- 
+  <section class="container formulaire">
+            <h1>Formulaire d'ajout de frais forfait</h1>
+            <form action="../fonction/newFraisForfait.php" method="POST">  
+            <div class="form-group">
+                    <label>Choix du frais forfait</label>
+                    <select name="frais_forfait" class="form-control">
+                        <option selected>Sélectionner un frais forfait</option>
+                        <?php  foreach ($fraiss as $frais) { ?>
+                            <option value="<?php echo $frais['id']; ?>"><?php echo $frais['libelle']; ?></option>
+                        <?php } ?>
+                        </select>
+                 </div> 
+                 
+                 <div class="form-group">
+                 <label>Quantité du frais</label>
+                    <input type="number" min="0"  name="quantite" class="form-control" placeholder="Rentrez votre quantité" required>
+                </div>
+                <input class="btn btn-primary btnAjout" type="submit" value="Valider"/>
+                        </form>
+                        </section>
 
 
 
