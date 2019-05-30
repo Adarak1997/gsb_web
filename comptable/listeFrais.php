@@ -47,7 +47,7 @@ session_start();
     //recupération de tous les id des utilisateurs
 		$reponse = $bdd->query('SELECT fiche_frais.id as fiche_id, fiche_frais.mois, fiche_frais.annee, fiche_frais.utilisateur_id 
                                 as utilisateur_id, utilisateur.pseudo as pseudo, etat.id as etat_id, etat.libelle as libelle
-								FROM `fiche_frais` inner join etat on fiche_frais.etat_id = etat.id 
+								                FROM `fiche_frais` inner join etat on fiche_frais.etat_id = etat.id 
                                 inner join utilisateur on fiche_frais.utilisateur_id = utilisateur.id
                                 WHERE `utilisateur_id` =\'' . $_GET['id'] . '\'');
         $utilisateur = $reponse ->fetch();

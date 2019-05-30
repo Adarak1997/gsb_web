@@ -120,6 +120,7 @@ $roles = $queryRole -> fetchAll();*/
 						  SET nom = :nom,
 							  prenom = :prenom,
 							  email = :email,
+								tel = :tel,
 							  date_naissance = :date_naissance,
 							  adresse = :adresse,
 							  ville = :ville,
@@ -131,6 +132,7 @@ $roles = $queryRole -> fetchAll();*/
 					$requete->bindparam(':nom',$nom);
 					$requete->bindparam(':prenom',$prenom);
 					$requete->bindparam(':email',$email);
+					$requete->bindparam(':tel',$tel);
 					$requete->bindparam(':date_naissance',$date_naissance);
 					$requete->bindparam(':adresse',$adresse);
 					$requete->bindparam(':ville',$ville);
