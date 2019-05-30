@@ -11,71 +11,169 @@ session_start();
         <!-- importer le fichier de style -->
         <link rel="stylesheet" href="style.css" media="screen" type="text/css" />
         <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/navbar.css" rel="stylesheet">
+        <link href="../css/tableau.css" rel="stylesheet">
 
     </head>
     <body style='background:#fff;'>
+        <!-- Navbar -->
+        <div class="container-navbar">
+        <ul>
+          <li><img src="../image/logo-gsb.png" style="width:100px; height:auto; margin:5px 50px 5px 5px;"></li>
+          <li><a href="listeUtilisateur.php">Liste des utilisateurs</a></li>
+          <li></li>
+          <li style="float:right"><a href='../index.php?deconnexion=true'><span>Déconnexion</span></a></li>
+        </ul>
+      </div>
 
-        <div id="content">
-                <!-- tester si l'utilisateur est connecté -->
-                <a href='../index.php?deconnexion=true'><span>Déconnexion</span></a>
-                <?php
-                if(isset($_GET['deconnexion']))
-                    { 
-                    if($_GET['deconnexion']==true)
-                    {  
-                        session_unset();
-                        header("location:../index.php");
-                    }
-                    }
-                    else if($_SESSION['pseudo'] !== ""){
-                    $user = $_SESSION['pseudo'];
-                    // afficher un message
-                    echo "Bonjour $user, vous êtes connecté en tant que comptable";
-                }
-                ?>
-        </div>
-
-        <table class="table">
-              <thead class="thead">
-        <tr>
-          <th scope="col">Libelle</th>
-          <th scope="col">Quantité</th>
-          <th scope="col">Montant</th>
-          <th scope="col">Etat</th>
-        </tr>
-
+      <!--Teste si l'utilisateur est connecté et affiche ses informations -->
+      <div style="background-color:#66A3D3; font-size: 1.1em; margin-bottom:20px;">
         <?php
-           
-           $sql = $bdd->query("SELECT mois, annee, id FROM fiche_frais");
-        
-           $sql2 = $sql->fetch();
-     
-           $id_fichefrais = $sql2['id'];
-
+          if(isset($_GET['deconnexion'])) { 
+            if($_GET['deconnexion']==true) {  
+              session_unset();
+              header("location:../index.php");
+            }
+          }
+          else if($_SESSION['pseudo'] !== ""){
+            $user = $_SESSION['pseudo'];
+            // afficher un message
+            echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
+          }    
+        ?>    
+      </div>
+          <!--
+            $query=$bdd->query('SELECT fiche_frais.id as fiche_frais_id,
+                                       fiche_frais.utilisateur_id as utilisateur_id
+                                       utilisateur.id as utilisateur_id,
+                                       utilisateur.tel as tel,
+                                       utilisateur.pseudo as pseudo
+                                       FROM utilisateur inner join fiche_frais on fiche_frais.utilisateur_id = utilisateur_id
+                                       WHERE `fiche_frais_id` =\'' . $_GET['id'] . '\'');
+            $user=$query->fetch();-->
           
-           $sql2=$bdd->query("SELECT details_frais_forfait.id, details_frais_forfait.quantite as quantite, frais_forfait.id as frais_forfait_id, frais_forfait.libelle as libelle, frais_forfait.montant as montant, details_frais_forfait.fiche_frais_id as fiche_frais_id, etat.id as etat_id, etat.libelle as libel FROM details_frais_forfait inner join frais_forfait on details_frais_forfait.frais_forfait_id = frais_forfait.id inner join etat on details_frais_forfait.etat_id = etat.id WHERE fiche_frais_id = $id_fichefrais");
-              
-              while($row = $sql2->fetch()){
 
+        <br><br>
+        <center><h2>Frais frofaitisés</h2></center>
+        <div class="tableau">
+        <table class="table">
+            <thead class="thead">
+                <tr>
+                    <th scope="col">Libelle</th>
+                    <th scope="col">Montant</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">Montant Total</th>
+                </tr>
+        <?php
+            $reponse=$bdd->query('SELECT details_frais_forfait.id, details_frais_forfait.quantite as quantite,
+             frais_forfait.id as frais_forfait_id, 
+             frais_forfait.libelle as libelle, 
+             frais_forfait.montant as montant, 
+             details_frais_forfait.fiche_frais_id as fiche_frais_id,
+             etat.id as etat_id, etat.libelle as libelle_etat 
+             FROM details_frais_forfait 
+             inner join frais_forfait 
+             on details_frais_forfait.frais_forfait_id = frais_forfait.id 
+             inner join etat on details_frais_forfait.etat_id = etat.id 
+             WHERE fiche_frais_id = \'' . $_GET['id'] . '\'');
                
+             while($row = $reponse->fetch()){
 
-                 echo "<tr><td>". $row["libelle"]."</td><td>". $row["quantite"]. "</td><td>". $row["montant"*"quantite"]. "</td><td>".  $row["libel"].  "<td></tr>";
-
-               }
-               echo "</table>";
-
+                  echo "<tr>
+                            <td>". $row["libelle"]."</td>
+                            <td>". $row["montant"]."</td>
+                            <td>". $row["quantite"]. "</td>
+                            <td>". $row["montant"]*$row["quantite"]. "</td>
+                        </tr>";
+                }
+                echo "</table>";
         ?>
-
-        <div class="super_container">
-            <div class="container">
-                <div class="jumbotron">
-                <h1 class="display-4">Hello, world!</h1>
-                <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-                <hr class="my-4">
-                <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-                <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-                </div>
-            </div>
         </div>
+
+        <br><br>
+        <center><h2>Frais non-frofaitisés</h2></center>
+            <div class="tableau">
+                <table class="table">
+                    <thead class="thead">
+                        <tr>
+                            <th scope="col">Libelle</th>
+                            <th scope="col">Montant</th>
+                            <th scope="col">Etat</th>
+                        </tr>
+                <?php
+                    $reponse=$bdd->query('SELECT details_frais_non_forfait.id,
+                    details_frais_non_forfait.fiche_frais_id as fiche_frais_id,
+                    details_frais_non_forfait.libelle as libelle,
+                    details_frais_non_forfait.montant as montant,
+                    etat.id as etat_id, 
+                    etat.libelle as libelle_etat 
+                    FROM details_frais_non_forfait 
+                    inner join etat on details_frais_non_forfait.etat_id = etat.id 
+                    WHERE fiche_frais_id = \'' . $_GET['id'] . '\'');
+                    
+                    while($row = $reponse->fetch()){
+
+                        echo "<tr>
+                                    <td>". $row["libelle"]."</td>
+                                    <td>". $row["montant"]."</td>
+                                    <td>". $row["libelle_etat"]."<td>
+                                    <td><a class='btn btn-primary' data-toggle=\"modal\" data-target=\"#changeEtat\">Modifier</a></td>
+                                </tr>";
+                        }
+                        ?>
+                </table>
+            </div>
+            <input class="btn btn-primary" type="button" value="Retour" style="margin-left:50px;" onclick="history.go(-1)">
+
+            <!-- Modal -->
+      <div class="modal fade" id="changeEtat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title" id="exampleModalLabel">Modifier Etat</h3>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <form method="POST">
+              <div class="radio">
+                <label><input class="radio-inline" type="radio" name="libelle_etat" value="valide" checked>Validé</label>
+              </div>
+              <div class="radio">
+                <label><input class="radio-inline" type="radio" name="libelle_etat" value="refuse">Refusé</label>
+              </div>
+              <input class="btn btn-primary btnModif" href="ficheFrais.php" type="submit" value="Valider"/>
+            </form>
+            <?php
+              if (isset($_POST['libelle_etat'])) {
+                /*if ($_POST['etat'] == 'valide') {
+                  $row['libelle_etat'] = 'valide';
+                }else{
+                    $row['libelle_etat'] = 'refuse';
+                  }*/
+                  
+                $libelle_etat = $_POST['libelle_etat'];
+
+                $reponse2=$bdd->prepare('UPDATE etat
+                                         SET libelle_etat = :libelle_etat');
+
+                $reponse2->bindparam(':libelle_etat', $libelle_etat);
+
+                $reponse2->execute();
+              } 
+            ?>
+            
+
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="../js/boostrap.min.js"></script>               
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     </body>
 </html>

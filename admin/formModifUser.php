@@ -13,52 +13,49 @@ $roles = $queryRole -> fetchAll();*/
 		<title>Modifier utilisateur</title>
 		<link rel="stylesheet" type="text/css" media="screen" href="../css/style.css" />
 		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/navbar.css" rel="stylesheet">
 	</head>
 	<body>
 
-	<div id="content">
-        <!-- tester si l'utilisateur est connecté -->
-        <a href='../index.php?deconnexion=true'><span>Déconnexion</span></a>
+ <!-- Navbar -->
+ <div class="container-navbar">
+        <ul>
+          <li><img src="../image/logo-gsb.png" style="width:100px; height:auto; margin:5px 50px 5px 5px;"></li>
+          <li><a href="listeUtilisateur.php">Liste des utilisateurs</a></li>
+          <li><a href="ajoutUtilisateur.php" role="button">Ajouter nouvel utilisateur</a></li>
+          <li></li>
+          <li style="float:right"><a href='../index.php?deconnexion=true'><span>Déconnexion</span></a></li>
+        </ul>
+      </div>
+
+      <!--Teste si l'utilisateur est connecté et affiche ses informations -->
+      <div style="background-color:#66A3D3; font-size: 1.1em; margin-bottom:20px;">
         <?php
-            if(isset($_GET['deconnexion']))
-            { 
-                if($_GET['deconnexion']==true)
-                {  
-                    session_unset();
-                    header("location:../index.php");
-                }
+          if(isset($_GET['deconnexion'])) { 
+            if($_GET['deconnexion']==true) {  
+              session_unset();
+              header("location:../index.php");
             }
-            else if($_SESSION['pseudo'] !== ""){
+          }
+          else if($_SESSION['pseudo'] !== ""){
             $user = $_SESSION['pseudo'];
             // afficher un message
             echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
-        }    
+          }    
         ?>    
-    </div>
+      </div>
 
 		<?php
-		//recupération de tous les id des utilisateurs
+		//recupération des informations selon l'id de l'utilisateur se trouvant dans l'url
 		$reponse = $bdd->query('SELECT *
 								FROM `utilisateur` 
 								WHERE `id` =\'' . $_GET['id'] . '\'');	
-
-		while ($donnees = $reponse->fetch()){
+		$donnees = $reponse->fetch()
 			
-			/*if ($donnees['role_id'] == 1) {
-				$donnees['role_id'] = "Visiteur";
-			}
-			elseif($donnees['role_id'] == 2){
-				$donnees['role_id'] = "Comptable";
-			}else{
-				$donnees['role_id'] = "Administrateur";
-			}*/
 			?>
-				<div class="formulaire">
-					<form action="../fonction/modifUser.php" method="POST">
-						<!--<label>Rôle</label>
-						<select name="role" class="form-control">
-							<option value="<?php echo $roles['role_id']; ?>"><?php echo $roles['libelle']; ?></option>
-						</select>-->
+				<section  class="container formulaire">
+					<center><h1 style="margin-bottom:20px;">Modifier l'utilisateur <?php echo $donnees["pseudo"] ?></h1></center>
+					<form method="POST">
 						<div class="form-group">
 							<label>Nom</label>
 							<input type="text" class="form-control" name="nom" value="<?php echo $donnees["nom"]?>">
@@ -73,7 +70,7 @@ $roles = $queryRole -> fetchAll();*/
 						</div>
 						<div class="form-group">
 							<label>Téléphone</label>
-							<input type="text" class="form-control" name="tel" value="<?php echo $donnees["email"]?>">
+							<input type="text" class="form-control" name="tel" value="<?php echo $donnees["tel"]?>">
 						</div>
 						<div class="form-group">
 							<label>Date de naissance</label>
@@ -103,7 +100,50 @@ $roles = $queryRole -> fetchAll();*/
 					</form>
 				</div>
 		<?php
-		//fermeture du while
+			if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['email']) && isset($_POST['tel'])
+					&& isset($_POST['date_naissance']) && isset($_POST['adresse']) && isset($_POST['ville']) 
+					&& isset($_POST['code_postal']) && isset($_POST['date_embauche']) && isset($_POST['pseudo'])){
+
+					$nom = $_POST['nom'];
+					$prenom = $_POST['prenom'];
+					$email = $_POST['email'];
+					$tel = $_POST['tel'];
+					$date_naissance = $_POST['date_naissance'];
+					$adresse = $_POST['adresse'];
+					$ville = $_POST['ville'];
+					$code_postal = $_POST['code_postal'];
+					$date_embauche = $_POST['date_embauche'];
+					$pseudo = $_POST['pseudo'];
+
+
+					$requete = $bdd->prepare("UPDATE utilisateur
+						  SET nom = :nom,
+							  prenom = :prenom,
+							  email = :email,
+								tel = :tel,
+							  date_naissance = :date_naissance,
+							  adresse = :adresse,
+							  ville = :ville,
+							  code_postal = :code_postal,
+							  date_embauche = :date_embauche,
+							  pseudo = :pseudo
+						  WHERE id = :id ");
+
+					$requete->bindparam(':nom',$nom);
+					$requete->bindparam(':prenom',$prenom);
+					$requete->bindparam(':email',$email);
+					$requete->bindparam(':tel',$tel);
+					$requete->bindparam(':date_naissance',$date_naissance);
+					$requete->bindparam(':adresse',$adresse);
+					$requete->bindparam(':ville',$ville);
+					$requete->bindparam(':code_postal',$code_postal);
+					$requete->bindparam(':date_embauche',$date_embauche);
+					$requete->bindparam(':pseudo',$pseudo);
+					$requete->bindparam(':id',$_GET['id']);
+
+					$requete->execute();
+
+					header('Location: listeUtilisateur.php');
 			}
 		?>
 	</body>

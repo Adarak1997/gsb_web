@@ -13,28 +13,36 @@ $roles = $query -> fetchAll();
             <title>Ajout d'utilisateur</title>
             <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css" />
             <link href="../css/bootstrap.min.css" rel="stylesheet">
+            <link href="../css/navbar.css" rel="stylesheet">
         </head>
     <body>
+        <!-- Navbar -->
+        <div class="container-navbar">
+        <ul>
+          <li><img src="../image/logo-gsb.png" style="width:100px; height:auto; margin:5px 50px 5px 5px;"></li>
+          <li><a href="listeUtilisateur.php">Liste des utilisateurs</a></li>
+          <li><a href="ajoutUtilisateur.php" role="button">Ajouter nouvel utilisateur</a></li>
+          <li></li>
+          <li style="float:right"><a href='../index.php?deconnexion=true'><span>Déconnexion</span></a></li>
+        </ul>
+      </div>
 
-    <div id="content">
-        <!-- tester si l'utilisateur est connecté -->
-        <a href='../index.php?deconnexion=true'><span>Déconnexion</span></a>
+      <!--Teste si l'utilisateur est connecté et affiche ses informations -->
+      <div style="background-color:#66A3D3; font-size: 1.1em; margin-bottom:20px;">
         <?php
-            if(isset($_GET['deconnexion']))
-            { 
-                if($_GET['deconnexion']==true)
-                {  
-                    session_unset();
-                    header("location:../index.php");
-                }
+          if(isset($_GET['deconnexion'])) { 
+            if($_GET['deconnexion']==true) {  
+              session_unset();
+              header("location:../index.php");
             }
-            else if($_SESSION['pseudo'] !== ""){
+          }
+          else if($_SESSION['pseudo'] !== ""){
             $user = $_SESSION['pseudo'];
             // afficher un message
             echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
-        }    
+          }    
         ?>    
-    </div>
+      </div>
 
     <?php 
 	
@@ -57,7 +65,7 @@ $roles = $query -> fetchAll();
         }
 	  ?>
         <section class="container formulaire">
-            <h1>Inscription utilisateur</h1>
+            <center><h1 style="margin-bottom: 20px;">Inscription utilisateur</h1></center>
             <form action="../fonction/newUser.php" method="POST">
                 <div class="form-group">
                     <label>Rôle</label>
@@ -94,38 +102,40 @@ $roles = $query -> fetchAll();
                     <input type="text" name="tel" class="form-control" placeholder="Entrez votre numéro de téléphone..." required>
                 </div>      
 
-                <div class="form-group">
-                    <label for="labelForm">Mot de passe</label>
-                    <input type="password" name="mdp" class="form-control" placeholder="Entrez votre mot de passe..." required>
-                </div>
-
+                
                 <div class="form-group">
                     <label for="labelForm">Ville</label>
                     <input type="text" name="ville" class="form-control" placeholder="Entrez ville..." required>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="labelForm">Adresse</label>
                     <input type="text" name="adresse" class="form-control" placeholder="Entrez adresse..." required>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="labelForm">Code postal</label>
                     <input type="text" name="code_postal" class="form-control" placeholder="Entrez code postal..." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="labelForm">Date d'embauche</label>
+                    <input type="date" name="date_embauche" class="form-control" placeholder="jj/mm/aaaa" required>
                 </div>
 
                 <div class="form-group">
                     <label for="labelForm">Pseudo</label>
                     <input type="text" name="pseudo" class="form-control" placeholder="Entrez pseudo..." required>
                 </div>
+                
 
                 <div class="form-group">
-                    <label for="labelForm">Date d'embauche</label>
-                    <input type="date" name="date_embauche" class="form-control" placeholder="jj/mm/aaaa" required>
+                    <label for="labelForm">Mot de passe</label>
+                    <input type="password" name="mdp" class="form-control" placeholder="Entrez votre mot de passe..." required>
                 </div>
+                
                 <input class="btn btn-primary btnAjout" type="submit" value="Valider"/><br>
             </form>
-                <a href="listeUtilisateur.php">Accéder à la liste des utilisateurs</a>
         </section>
     </body>
 </html> 
