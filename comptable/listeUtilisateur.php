@@ -65,9 +65,9 @@ session_start();
             while($donnees = $reponse -> fetch())
             {
                 echo "<tr>".
-                        "<td>" .$donnees['nom']. "</td>".
-                        "<td>" .$donnees['prenom']. "</td>".
                         "<td>" .$donnees['pseudo']. "</td>".
+                        "<td>" .$donnees['nom']. "</td>".
+                        "<td>" .$donnees['prenom']. "</td>".                      
                         "<td>" .$donnees['email']. "</td>".
                         "<td>" .$donnees['tel']. "</td>".
                         "<td>" .$donnees['ville']. "</td>".
@@ -78,7 +78,7 @@ session_start();
             }
 
             //Termine le traitement de la requête
-            $reponse->closeCursor();0
+            $reponse->closeCursor();
             ?>
 
             <!-- Button trigger modal -->
