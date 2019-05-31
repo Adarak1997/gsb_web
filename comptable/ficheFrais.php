@@ -117,16 +117,16 @@ session_start();
                                     <td>". $row["libelle"]."</td>
                                     <td>". $row["montant"]."</td>
                                     <td>". $row["libelle_etat"]."<td>
-                                    <td>".'<a class="btn btn-primary" href="../fonction/valideDetails.php?id='.$row['id'].'">Valider frais</a>';"</td>
+                                    <td>"."<a class='btn btn-primary' href=\"../fonction/valideDetails.php?id=".$row['id']."\">Modifier</a>;</td>
                                 </tr>";
                         }
                         ?>
                 </table>
             </div>
-            <!-- <input class="btn btn-primary" type="button" value="Retour" style="margin-left:50px;" onclick="history.go(-1)"> -->
+            <input class="btn btn-primary" type="button" value="Retour" style="margin-left:50px;" onclick="history.go(-1)">
 
             <!-- Modal -->
-      <!-- <div class="modal fade" id="changeEtat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="changeEtat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -144,25 +144,25 @@ session_start();
                 <label><input class="radio-inline" type="radio" name="libelle_etat" value="refuse">Refusé</label>
               </div>
               <input class="btn btn-primary btnModif" href="ficheFrais.php" type="submit" value="Valider"/>
-            </form> -->
-            <!-- <?php
-              // if (isset($_POST['libelle_etat'])) {
-              //   // /*if ($_POST['etat'] == 'valide') {
-              //   //   $row['libelle_etat'] = 'valide';
-              //   // }else{
-              //   //     $row['libelle_etat'] = 'refuse';
-              //   //   }*/
+            </form>
+            <?php
+              if (isset($_POST['libelle_etat'])) {
+                /*if ($_POST['etat'] == 'valide') {
+                  $row['libelle_etat'] = 'valide';
+                }else{
+                    $row['libelle_etat'] = 'refuse';
+                  }*/
                   
-              //   $libelle_etat = $_POST['libelle_etat'];
+                $libelle_etat = $_POST['libelle_etat'];
 
-              //   $reponse2=$bdd->prepare('UPDATE etat
-              //                            SET libelle_etat = :libelle_etat');
+                $reponse2=$bdd->prepare('UPDATE etat
+                                         SET libelle_etat = :libelle_etat');
 
-              //   $reponse2->bindparam(':libelle_etat', $libelle_etat);
+                $reponse2->bindparam(':libelle_etat', $libelle_etat);
 
-              //   $reponse2->execute();
-              // } 
-            ?> -->
+                $reponse2->execute();
+              } 
+            ?>
             
 
             </div>
