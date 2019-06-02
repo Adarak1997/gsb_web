@@ -94,6 +94,13 @@ session_start();
         </table>
       </div>
 
+      <!-- Footer -->
+        <footer>
+            <div class="container text-center footer">
+                <p style="padding-top:20px;">© 2019 - GALAXY SWISS BOURDIN</p>
+            </div>
+        </footer>
+
         <script src="js/bootstrap.min.js"></script>
     </body>
 </html>

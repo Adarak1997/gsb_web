@@ -78,5 +78,16 @@ while($donnees = $reponse -> fetch())
             </table>  
             <input class="btn btn-primary" type="button" value="Retour" style="margin-left:50px;" onclick="history.go(-1)">
         </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="container text-center">
+              <div class="row">
+                  <div class="col-md-12">
+                    <p style="padding-top:20px;">© 2019 - GALAXY SWISS BOURDIN</p>
+                  </div>
+              </div>
+          </div>
+      </footer>  
     </body>
 </html>
