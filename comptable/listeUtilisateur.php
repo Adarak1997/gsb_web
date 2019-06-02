@@ -38,7 +38,7 @@ session_start();
           else if($_SESSION['pseudo'] !== ""){
             $user = $_SESSION['pseudo'];
             // afficher un message
-            echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
+            echo "Bonjour $user, vous êtes connecté en tant que comptable.";
           }    
         ?>    
       </div>

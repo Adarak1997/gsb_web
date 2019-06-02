@@ -424,7 +424,7 @@ elseif(isset($_POST['ajoutRepas'])){
     $midi = $_POST['repas_midi'];
 
     $fiche3 = $bdd->query("SELECT * FROM fiche_frais WHERE mois = '".$mois."' AND annee ='".$annee."' AND utilisateur_id ='".$userId."'");
-
+               
     if($fiche3->rowCount()<1){
 
       $creer5=$bdd->prepare('INSERT INTO `fiche_frais` (`id`, `mois`, `annee`, `etat_id`, `utilisateur_id`)
