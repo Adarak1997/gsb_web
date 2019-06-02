@@ -125,7 +125,8 @@ session_start();
                                     <td>". $row["libelle"]."</td>
                                     <td>". $row["montant"]."</td>
                                     <td>". $row["libelle_etat"]."<td>
-                                    <td>"."<a class='btn btn-primary' href=\"../fonction/valideDetails.php?id=".$row['id']."\">Modifier</a></td>
+                                    <td>"."<a class='btn btn-success' href=\"../fonction/valideDetails.php?id=".$row['id']."\">Valider</a>
+                                    <a class='btn btn-danger' href=\"../fonction/refuseDetails.php?id=".$row['id']."\">Refusé</a></td>
                                 </tr>";
                         }
                         ?>
