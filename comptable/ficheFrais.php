@@ -13,6 +13,7 @@ session_start();
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/navbar.css" rel="stylesheet">
         <link href="../css/tableau.css" rel="stylesheet">
+        <link href="../css/card.css" rel="stylesheet">
 
     </head>
     <body style='background:#fff;'>
@@ -42,16 +43,30 @@ session_start();
           }    
         ?>    
       </div>
-          <!--
-            $query=$bdd->query('SELECT fiche_frais.id as fiche_frais_id,
-                                       fiche_frais.utilisateur_id as utilisateur_id
-                                       utilisateur.id as utilisateur_id,
-                                       utilisateur.tel as tel,
-                                       utilisateur.pseudo as pseudo
-                                       FROM utilisateur inner join fiche_frais on fiche_frais.utilisateur_id = utilisateur_id
-                                       WHERE `fiche_frais_id` =\'' . $_GET['id'] . '\'');
-            $user=$query->fetch();-->
-          
+
+      <?php
+        $tel = $bdd->query("SELECT tel, prenom, nom, email, adresse FROM utilisateur WHERE id = '".$_GET['iduser']."'");
+        $affichage = $tel->fetch();
+        ?>     
+      
+      <section class="container">
+          <div class="row">
+            <div class="col-lg-5">
+              <div class="card">
+                <div class="card-header">
+                <center><h1 ><?php echo $affichage['prenom']," ", $affichage['nom'] ?></h1></center>
+                </div>
+                <div class="card-body">
+                  <p>
+                    Téléphone :<?php echo $affichage['tel']?><br>
+                    Email: <?php echo $affichage['email']?><br>
+                    Adresse: <?php echo $affichage['adresse']?><br>
+                  </p>
+                </div> 
+              </div>
+            </div>
+          </div>
+      </section>
 
         <br><br>
         <center><h2>Frais forfaitisés</h2></center>
@@ -65,6 +80,10 @@ session_start();
                     <th scope="col">Montant Total</th>
                 </tr>
         <?php
+            
+            
+
+
             $reponse=$bdd->query('SELECT details_frais_forfait.id, details_frais_forfait.quantite as quantite,
              frais_forfait.id as frais_forfait_id, 
              frais_forfait.libelle as libelle, 
@@ -89,14 +108,6 @@ session_start();
                 echo "</table>";
         ?>
         </div>
-
-        <?php
-
-        $tel = $bdd->query("SELECT tel FROM utilisateur WHERE id = '".$_GET['iduser']."'");
-        $affichage = $tel->fetch();
-        ?>
-
-        <p><?php echo $affichage['tel'] ?></p>
 
         <br><br>
         <center><h2>Frais non-forfaitisés</h2></center>
@@ -132,48 +143,7 @@ session_start();
                         ?>
                 </table>
             </div>
-            <input class="btn btn-primary" type="button" value="Retour" style="margin-left:50px;" onclick="history.go(-1)">
-
-            <!-- Modal -->
-      <div class="modal fade" id="changeEtat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h3 class="modal-title" id="exampleModalLabel">Modifier Etat</h3>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-            <form method="POST">
-              <div class="radio">
-                <label><input class="radio-inline" type="radio" name="libelle_etat" value="valide" checked>Validé</label>
-              </div>
-              <div class="radio">
-                <label><input class="radio-inline" type="radio" name="libelle_etat" value="refuse">Refusé</label>
-              </div>
-              <input class="btn btn-primary btnModif" href="ficheFrais.php" type="submit" value="Valider"/>
-            </form>
-            <?php
-              if (isset($_POST['libelle_etat'])) {
-                /*if ($_POST['etat'] == 'valide') {
-                  $row['libelle_etat'] = 'valide';
-                }else{
-                    $row['libelle_etat'] = 'refuse';
-                  }*/
-                  
-                $libelle_etat = $_POST['libelle_etat'];
-
-                $reponse2=$bdd->prepare('UPDATE etat
-                                         SET libelle_etat = :libelle_etat');
-
-                $reponse2->bindparam(':libelle_etat', $libelle_etat);
-
-                $reponse2->execute();
-              } 
-            ?>
-            
-
+              <input class="btn btn-primary" type="button" value="Retour" style="margin-left:50px;" onclick="history.go(-1)">
             </div>
 
           </div>
