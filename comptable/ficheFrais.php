@@ -54,7 +54,7 @@ session_start();
           
 
         <br><br>
-        <center><h2>Frais frofaitisés</h2></center>
+        <center><h2>Frais forfaitisés</h2></center>
         <div class="tableau">
         <table class="table">
             <thead class="thead">
@@ -99,7 +99,7 @@ session_start();
         <p><?php echo $affichage['tel'] ?></p>
 
         <br><br>
-        <center><h2>Frais non-frofaitisés</h2></center>
+        <center><h2>Frais non-forfaitisés</h2></center>
             <div class="tableau">
                 <table class="table">
                     <thead class="thead">
@@ -125,7 +125,7 @@ session_start();
                                     <td>". $row["libelle"]."</td>
                                     <td>". $row["montant"]."</td>
                                     <td>". $row["libelle_etat"]."<td>
-                                    <td>"."<a class='btn btn-primary' href=\"../fonction/valideDetails.php?id=".$row['id']."\">Modifier</a>;</td>
+                                    <td>"."<a class='btn btn-primary' href=\"../fonction/valideDetails.php?id=".$row['id']."\">Modifier</a></td>
                                 </tr>";
                         }
                         ?>
@@ -174,11 +174,21 @@ session_start();
             
 
             </div>
-            <div class="modal-footer">
-            </div>
+
           </div>
         </div>
       </div>
+
+        <!-- Footer -->
+        <footer class="footer2">
+          <div class="container text-center">
+              <div class="row">
+                  <div class="col-md-12">
+                    <p style="padding-top:20px;">© 2019 - GALAXY SWISS BOURDIN</p>
+                  </div>
+              </div>
+          </div>
+      </footer>  
 
       <script src="../js/boostrap.min.js"></script>               
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>

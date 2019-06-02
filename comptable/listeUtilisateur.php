@@ -43,7 +43,7 @@ session_start();
         ?>    
       </div>
 
-        <table class="table">
+        <table style="margin-bottom:38px;" class="table">
             <thead class="thead">
                 <tr>
                     <th scope="col">Pseudo</th>
@@ -83,6 +83,17 @@ session_start();
 
             <!-- Button trigger modal -->
 
-        </table>      
+        </table>
+
+        <!-- Footer -->
+      <footer class="footer">
+          <div class="container text-center">
+              <div class="row">
+                  <div class="col-md-12">
+                    <p style="padding-top:20px;">© 2019 - GALAXY SWISS BOURDIN</p>
+                  </div>
+              </div>
+          </div>
+      </footer>     
     </body>
 </html>

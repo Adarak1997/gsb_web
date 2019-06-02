@@ -117,8 +117,6 @@ $reponse=$bdd->query("SELECT details_frais_forfait.id, details_frais_forfait.qua
 
 
 
-
-
 ?> 
 <div class="container-fluid">
   <div class="row">
@@ -134,10 +132,10 @@ $reponse=$bdd->query("SELECT details_frais_forfait.id, details_frais_forfait.qua
                   <table class="table">
                     <thead class="thead">
               <tr>
-                <th scope="col">Libelle</th>
-                <th scope="col">Quantité</th>
-                <th scope="col">Montant</th>
-                <th scope="col">Etat</th>
+                <td style="text-decoration: bold;" scope="col">Libelle</td>
+                <td scope="col">Quantité</td>
+                <td scope="col">Montant</td>
+                <td scope="col">Etat</td>
               </tr>
               <?php  while($row = $reponse->fetch()){
               echo "<tr><td>". $row["libelle"]."</td><td>". $row["quantite"]. "</td><td>". $row["montant"]*$row["quantite"]. "</td><td>".  $row["libel"].  "</td></tr>";
@@ -164,7 +162,6 @@ $reponse=$bdd->query("SELECT details_frais_forfait.id, details_frais_forfait.qua
       AND utilisateur_id = '".$userId."'");
 
 
-  
   
             ?>
       <div class="w3-container">
@@ -540,6 +537,13 @@ elseif(isset($_POST['ajoutRelais'])){
 }
   
   ?>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container text-center footer2">
+                <p style="padding-top:20px;">© 2019 - GALAXY SWISS BOURDIN</p>
+            </div>
+        </footer>
   
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>

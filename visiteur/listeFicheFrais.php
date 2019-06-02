@@ -11,7 +11,7 @@
     </head>
     <body style='background:#fff;'>
 
-        <div id="content">
+        <div style="margin-bottom:235px;" id="content">
 
              
             <!-- tester si l'utilisateur est connecté -->
@@ -122,7 +122,7 @@ $lemois =['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Ao�
                 echo "</table>";             
             ?>
 
-
+              </div>
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -148,5 +148,11 @@ $lemois =['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Ao�
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>     
 
+        <!-- Footer -->
+        <footer>
+          <div class="container text-center footer">
+            <p style="padding-top:20px;">© 2019 - GALAXY SWISS BOURDIN</p>
+          </div>
+        </footer>
     </body>
 </html>

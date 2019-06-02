@@ -137,5 +137,13 @@ $roles = $query -> fetchAll();
                 <input class="btn btn-primary btnAjout" type="submit" value="Valider"/><br>
             </form>
         </section>
+
+      <!-- Footer -->
+        <footer>
+            <div class="container text-center footer2">
+                <p  style="padding-top:20px;">© 2019 - GALAXY SWISS BOURDIN</p>
+            </div>
+        </footer>
+
     </body>
 </html> 
