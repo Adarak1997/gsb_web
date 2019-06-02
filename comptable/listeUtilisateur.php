@@ -59,7 +59,7 @@ session_start();
             <?php
 
             // Récupération des données de la table utilisateur
-            $reponse = $bdd ->query('SELECT * FROM utilisateur');
+            $reponse = $bdd ->query('SELECT * FROM utilisateur WHERE role_id ="1"');
             
             //Boucle pour Parcourir tous les champs de la table utilisateur
             while($donnees = $reponse -> fetch())
