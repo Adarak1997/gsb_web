@@ -39,7 +39,7 @@ session_start();
           else if($_SESSION['pseudo'] !== ""){
             $user = $_SESSION['pseudo'];
             // afficher un message
-            echo "Bonjour $user, vous êtes connecté en tant qu'administrateur.";
+            echo "Bonjour $user, vous êtes connecté en tant que comptable.";
           }    
         ?>    
       </div>
@@ -49,7 +49,7 @@ session_start();
         $affichage = $tel->fetch();
         ?>     
       
-      <section class="container">
+      <section class="container-fluid">
           <div class="row">
             <div class="col-lg-5">
               <div class="card">
@@ -64,6 +64,15 @@ session_start();
                   </p>
                 </div> 
               </div>
+            </div>
+
+            <?php  $reponse=$bdd->query('SELECT *
+                                         FROM fiche_frais
+                                         WHERE id = \'' . $_GET['id'] . '\'');
+            $row = $reponse->fetch()
+            ?>
+            <div style="float: right;" class="col-lg-2">
+              <?php echo "<a class='btn btn-success btn-lg' href=\"../fonction/valideFiche.php?id=".$row['id']."\">Valider fiche frais</a>" ?>
             </div>
           </div>
       </section>
@@ -132,20 +141,19 @@ session_start();
                     
                     while($row = $reponse->fetch()){
 
-                        echo "<tr>".
-                                    "<td>" .$row["libelle"]. "</td>".
-                                    "<td>" .$row["montant"]. "</td>".
-                                    "<td>" .$row["libelle_etat"]. "<td>".
-                                    "<td><a class='btn btn-success' href=\"../fonction/valideDetails.php?id=".$row['id']."\">Valider</a>
-                                    <a class='btn btn-danger' href=\"../fonction/refuseDetails.php?id=".$row['id']."\">Refusé</a></td>".
-                                "</tr>";
+                        echo "<tr>
+                                    <td>". $row["libelle"]."</td>
+                                    <td>". $row["montant"]."</td>
+                                    <td>". $row["libelle_etat"]."<td>
+                                    <td>"."<a class='btn btn-success' href=\"../fonction/valideDetails.php?id=".$row['id']."\">Valider</a>
+                                    <a class='btn btn-danger' href=\"../fonction/refuseDetails.php?id=".$row['id']."\">Refuser</a></td>
+                                </tr>";
                         }
                         ?>
                 </table>
             </div>
-              <input class="btn btn-primary" type="button" value="Retour" style="margin-left:50px;" onclick="history.go(-1)">
-            </div>
-
+              <input class="btn btn-primary" type="button" value="Retour" style="margin-left:50px;" onclick="history.go(-1)"> 
+             </div>
           </div>
         </div>
       </div>
