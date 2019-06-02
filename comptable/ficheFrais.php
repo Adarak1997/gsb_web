@@ -90,6 +90,14 @@ session_start();
         ?>
         </div>
 
+        <?php
+
+        $tel = $bdd->query("SELECT tel FROM utilisateur WHERE id = '".$_GET['iduser']."'");
+        $affichage = $tel->fetch();
+        ?>
+
+        <p><?php echo $affichage['tel'] ?></p>
+
         <br><br>
         <center><h2>Frais non-frofaitisés</h2></center>
             <div class="tableau">

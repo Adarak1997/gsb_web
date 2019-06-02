@@ -62,13 +62,15 @@ session_start();
             </tr>
     
 <?php
+
+$idUser = $_GET['id'];
 while($donnees = $reponse -> fetch())   
 {
     echo "<tr>".
             "<td>" .$donnees['mois']. "</td>".
             "<td>" .$donnees['annee']. "</td>".
             "<td>" .$donnees['libelle']. "</td>".
-            "<td><a class='btn btn-primary' href=\"ficheFrais.php?id=".$donnees['fiche_id']."\">Détails</a></td>".
+            "<td><a class='btn btn-primary' href=\"ficheFrais.php?id=".$donnees['fiche_id']."&amp;iduser=".$idUser."\">Détails</a></td>".
         "</tr>";        
 }
 
