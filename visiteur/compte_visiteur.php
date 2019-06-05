@@ -267,32 +267,34 @@ $idFiche = $sql['id'];
     $libelle = $_POST['libelle'];
     $montant = $_POST['montant'];
 
+    //select les fiches frais de mois et année en cours et de l'utilisateur connecté
     $fiche = $bdd->query("SELECT * FROM fiche_frais WHERE mois = '".$mois."' AND annee ='".$annee."' AND utilisateur_id ='".$userId."'");
-
+    //si <1 soit 0 aucune fiche frais existe
     if($fiche->rowCount()<1){
-      
+      //il crée donc la fiche frais avant d'insérer le frais
       $creer=$bdd->prepare('INSERT INTO `fiche_frais` (`id`, `mois`, `annee`, `etat_id`, `utilisateur_id`)
       VALUES (id, "'.$mois.'", "'.$annee.'", "1", "'.$userId.'")');
 
       $creer->execute();
-
+      //lastInsertId sert à récupérer le dernier id insérer dans la bdd c'est à dire celle de la fiche frais
       $creer2 = $bdd->lastInsertId();
-
+      //crée le frais et mettant dans l'id de la fiche frais la variable qui récupère le lastInsertId
       $FraisHorsForfait = $bdd->prepare('INSERT INTO `details_frais_non_forfait` (`id`, `libelle`, `montant`, `fiche_frais_id`, `etat_id`)
       VALUES (id, "'.$libelle.'", "'.$montant.'" , "'.$creer2.'" , "1")');
     
     
       $FraisHorsForfait->execute();
-    
+      //sert à refresh la page pour faire apparaitre directement le frais
       echo "<meta http-equiv='refresh' content=\"0; URL=compte_visiteur.php\">";
 
     }else{
+      //sinon si =1 la fiche existe déjà il crée donc directement le frais
     $FraisHorsForfait = $bdd->prepare('INSERT INTO `details_frais_non_forfait` (`id`, `libelle`, `montant`, `fiche_frais_id`, `etat_id`)
     VALUES (id, "'.$libelle.'", "'.$montant.'" , "'.$idFiche.'" , "1")');
     
     
     $FraisHorsForfait->execute();
-    
+    //refresh la page 
     echo "<meta http-equiv='refresh' content=\"0; URL=compte_visiteur.php\">";
   
     }
@@ -303,54 +305,60 @@ $idFiche = $sql['id'];
 
   if(isset($_POST['kilometre'])){
     $kilometre = $_POST['kilometre'];
-
+    //select les fiches frais du mois, année en cours de l'utilisateur co
     $fiche = $bdd->query("SELECT * FROM fiche_frais WHERE mois = '".$mois."' AND annee ='".$annee."' AND utilisateur_id ='".$userId."'");
-
+    //si <1 aucune fiche existe
     if($fiche->rowCount()<1){
-
+      //il crée d'abord la fiche du mois
       $creer=$bdd->prepare('INSERT INTO `fiche_frais` (`id`, `mois`, `annee`, `etat_id`, `utilisateur_id`)
       VALUES (id, "'.$mois.'", "'.$annee.'", "1", "'.$userId.'")');
 
       $creer->execute();
-
+      //récupére l'id de la fiche crée précedemment
       $creer2 = $bdd->lastInsertId();
-
+      //ensuite il vérifie si un frais id=1 cad kilometrage existe déjà pour la fiche en cours
     $verifier = $bdd->query("SELECT * FROM details_frais_forfait WHERE frais_forfait_id='1' AND fiche_frais_id='".$creer2."'");
     
-
+      //si il existe pas <1
     if($verifier->rowCount()<1){
+      //il insert le frais dans la bdd
       $FraisKilometre = $bdd->prepare('INSERT INTO `details_frais_forfait` (`id`, `quantite`, `frais_forfait_id`, `fiche_frais_id`, `etat_id`)
     VALUES (id, "'.$kilometre.'", "1", "'.$creer2.'", "1")');
 
     $FraisKilometre->execute();
-
+      //refresh
     echo "<meta http-equiv='refresh' content=\"0; URL=compte_visiteur.php\">";
+    //sinon si le frais existe déjà
     }else{
+      //update le frais déjà existant en l'ajoutant exemple : si kilometrage avait déjà 20 en quantite et tu entres 50, kilometrage aura 70 mnt
       $updateKilometre = $bdd->prepare("UPDATE details_frais_forfait SET quantite = quantite + :quantite, frais_forfait_id ='1', fiche_frais_id = :fiche, etat_id ='1' WHERE frais_forfait_id ='1' AND fiche_frais_id ='".$idFiche."'");
       $updateKilometre->bindparam(':quantite',$kilometre);
       $updateKilometre->bindparam(':fiche',$idFiche);
       $updateKilometre->execute();
-
+      //refresh
       echo "<meta http-equiv='refresh' content=\"0; URL=compte_visiteur.php\">";
     }
-
+    //si la fiche existe déjà =1 rebelote
     }else{
+      //vérifie si le détails existe
       $verifier = $bdd->query("SELECT * FROM details_frais_forfait WHERE frais_forfait_id='1' AND fiche_frais_id='".$idFiche."'");
     
-
+      //si il existe pas <1
     if($verifier->rowCount()<1){
+      //le crée
       $FraisKilometre = $bdd->prepare('INSERT INTO `details_frais_forfait` (`id`, `quantite`, `frais_forfait_id`, `fiche_frais_id`, `etat_id`)
     VALUES (id, "'.$kilometre.'", "1", "'.$idFiche.'", "1")');
 
     $FraisKilometre->execute();
-
+      //refresh
     echo "<meta http-equiv='refresh' content=\"0; URL=compte_visiteur.php\">";
     }else{
+      //si il existe update la bdd en ajoutant les quantités
       $updateKilometre = $bdd->prepare("UPDATE details_frais_forfait SET quantite = quantite + :quantite, frais_forfait_id ='1', fiche_frais_id = :fiche, etat_id ='1' WHERE frais_forfait_id ='1' AND fiche_frais_id ='".$idFiche."'");
       $updateKilometre->bindparam(':quantite',$kilometre);
       $updateKilometre->bindparam(':fiche',$idFiche);
       $updateKilometre->execute();
-
+      //refresh
       echo "<meta http-equiv='refresh' content=\"0; URL=compte_visiteur.php\">";
     }
 
@@ -358,6 +366,8 @@ $idFiche = $sql['id'];
 
   }
 }
+
+//la même chose que kilometrage pour les requêtes
 elseif(isset($_POST['ajoutNuit'])){
 
   if(isset($_POST['nuit'])){
@@ -417,7 +427,7 @@ elseif(isset($_POST['ajoutNuit'])){
 
   }
 }
-
+//la même chose que kilometrage pour les requêtes
 elseif(isset($_POST['ajoutRepas'])){
 
   if(isset($_POST['repas_midi'])){
@@ -476,7 +486,7 @@ elseif(isset($_POST['ajoutRepas'])){
 
   }
 }
-
+//la même chose que kilometrage pour les requêtes
 elseif(isset($_POST['ajoutRelais'])){
   
   if(isset($_POST['relais_etape'])){
